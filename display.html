@@ -7,37 +7,31 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            min-height: 100vh;
             margin: 0;
+            padding: 20px;
             background-color: #f5f5f5;
         }
         .container {
             display: flex;
             justify-content: space-between;
-            width: 100%;
             max-width: 1200px;
-            padding: 20px;
+            margin: 0 auto;
         }
         .section {
             border: 1px solid #ccc;
             border-radius: 8px;
             padding: 20px;
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-            text-align: left;
-            margin: 10px;
             width: 45%;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: white;
         }
         h2 {
             margin-bottom: 20px;
         }
         .ink-options {
             display: flex;
+            flex-wrap: wrap;
             gap: 10px;
-            margin-bottom: 20px;
         }
         .ink-options img {
             width: 50px;
@@ -52,7 +46,7 @@
             width: 100px;
             height: auto;
         }
-        .round {
+        .round, .name {
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 20px;
@@ -60,6 +54,17 @@
         .counter-value {
             font-size: 36px;
             font-weight: bold;
+        }
+        .wld {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .wld-item {
+            font-size: 18px;
+            font-weight: bold;
+            padding: 5px;
         }
     </style>
     <!-- Firebase SDK -->
@@ -108,13 +113,8 @@
             onValue(ref(database, 'formData/counter'), (snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
-                    console.log("Counter data:", data); // Log the entire counter data
-                    console.log("Counter ink field:", data.ink); // Log the ink field
-
                     counterNameDisplay.textContent = data.name || 'Unknown';
                     counterInksDisplay.innerHTML = ''; // Clear previous ink images
-
-                    // Handle ink as array and display corresponding images
                     if (Array.isArray(data.ink)) {
                         data.ink.forEach(ink => {
                             const img = document.createElement('img');
@@ -122,14 +122,11 @@
                             counterInksDisplay.appendChild(img);
                         });
                     } else {
-                        console.error("No ink data or invalid ink data found. Ink field is:", data.ink);
                         counterInksDisplay.textContent = "No inks selected";
                     }
-
                     counterWLDDisplay.textContent = `${data.wins || 0}:${data.losses || 0}:${data.draws || 0}`;
                     counterLoreDisplay.textContent = data.counterValue || 0;
                 } else {
-                    console.error("No counter data found.");
                     counterNameDisplay.textContent = "No data available";
                 }
             });
@@ -138,13 +135,8 @@
             onValue(ref(database, 'formData/door'), (snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
-                    console.log("Door data:", data); // Log the entire door data
-                    console.log("Door ink field:", data.ink); // Log the ink field
-
                     doorNameDisplay.textContent = data.name || 'Unknown';
                     doorInksDisplay.innerHTML = ''; // Clear previous ink images
-
-                    // Handle ink as array and display corresponding images
                     if (Array.isArray(data.ink)) {
                         data.ink.forEach(ink => {
                             const img = document.createElement('img');
@@ -152,14 +144,11 @@
                             doorInksDisplay.appendChild(img);
                         });
                     } else {
-                        console.error("No ink data or invalid ink data found. Ink field is:", data.ink);
                         doorInksDisplay.textContent = "No inks selected";
                     }
-
                     doorWLDDisplay.textContent = `${data.wins || 0}:${data.losses || 0}:${data.draws || 0}`;
                     doorLoreDisplay.textContent = data.counterValue || 0;
                 } else {
-                    console.error("No door data found.");
                     doorNameDisplay.textContent = "No data available";
                 }
             });
@@ -178,7 +167,7 @@
         <!-- Counter Section -->
         <div class="section">
             <h2>Counter</h2>
-            <p><strong>Name:</strong> <span id="counterNameDisplay">Loading...</span></p>
+            <p class="name"><strong>Name:</strong> <span id="counterNameDisplay">Loading...</span></p>
             <div class="ink-options" id="counterInksDisplay">Loading...</div>
             <p><strong>W:L:D:</strong> <span id="counterWLDDisplay">Loading...</span></p>
             <div class="lore-counter">
@@ -190,7 +179,7 @@
         <!-- Door Section -->
         <div class="section">
             <h2>Door</h2>
-            <p><strong>Name:</strong> <span id="doorNameDisplay">Loading...</span></p>
+            <p class="name"><strong>Name:</strong> <span id="doorNameDisplay">Loading...</span></p>
             <div class="ink-options" id="doorInksDisplay">Loading...</div>
             <p><strong>W:L:D:</strong> <span id="doorWLDDisplay">Loading...</span></p>
             <div class="lore-counter">
