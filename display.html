@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lorcana Lore Counter Display</title>
+    <title>Lorcana Display</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,37 +14,49 @@
             margin: 0;
             background-color: #f4f4f4;
         }
+        .display-container {
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            width: 400px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
         .lore-counter {
             position: relative;
             display: inline-block;
             text-align: center;
+            margin-top: 20px;
         }
         .lore-counter img {
-            width: 300px; /* Adjust based on actual image size */
+            width: 300px;
             height: auto;
         }
         .counter-value {
             position: absolute;
-            top: 50%;  
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 24px; 
-            color: white; 
+            font-size: 24px;
+            color: white;
             font-weight: bold;
             z-index: 10;
         }
+        .stat {
+            margin: 10px 0;
+            font-size: 20px;
+        }
+        .stat span {
+            font-weight: bold;
+        }
     </style>
-    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js"></script>
-</head>
-<body>
-    <div class="lore-counter">
-        <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/d14ea819-bcbe-49dc-99b9-e81086106809/dhro31k-da79efd9-b141-4a51-a21f-a4c9776df7fb.png/v1/fill/w_832,h_961/lorcana_tcg_symbols___basic_ink__vector_file__by_roshmalum_dhro31k-pre.png" 
-             alt="Lorcana Lore Image" id="loreImage">
-        <span class="counter-value" id="counterDisplay">0</span>
-    </div>
+    <!-- Import Firebase Modular SDK -->
+    <script type="module">
+        // Import Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js";
 
-    <script>
         // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBM_1NtDkH7781rsyED0NH8ue6oXMC9rUA",
@@ -57,19 +69,76 @@
             measurementId: "G-Z74WTDETTK"
         };
 
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+        // Initialize Firebase app
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
 
-        // Reference to the data in Firebase
-        const counterRef = database.ref('formData/counterValue');
+        // Wait until DOM is loaded
+        window.onload = () => {
+            const nameDisplay = document.getElementById('nameDisplay');
+            const colorDisplay = document.getElementById('colorDisplay');
+            const statDisplay = document.getElementById('statDisplay');
+            const counterDisplay = document.getElementById('counterDisplay');
 
-        // Listen for changes in the counter value
-        counterRef.on('value', (snapshot) => {
-            const data = snapshot.val();
-            const displayElement = document.getElementById('counterDisplay');
-            displayElement.textContent = data; // Update the displayed counter value
-        });
+            // Reference to the form data in Firebase
+            const formDataRef = ref(database, 'formData');
+
+            // Listen for changes in the form data
+            onValue(formDataRef, (snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+
+                    // Set player name
+                    nameDisplay.textContent = data.name || 'No Name';
+
+                    // Set color combination
+                    const selectedColors = data.selectedColors || [];
+                    if (selectedColors.length > 0) {
+                        colorDisplay.textContent = selectedColors.join(' + ');
+                    } else {
+                        colorDisplay.textContent = 'No Colors Selected';
+                    }
+
+                    // Set wins, losses, draws
+                    const wins = data.wins || 0;
+                    const losses = data.losses || 0;
+                    const draws = data.draws || 0;
+                    statDisplay.textContent = `${wins}:${losses}:${draws}`;
+
+                    // Set lore counter value
+                    counterDisplay.textContent = data.counterValue || 0;
+                }
+            });
+        };
     </script>
+</head>
+<body>
+
+    <div class="display-container">
+        <h1>Lorcana Display</h1>
+
+        <!-- Player Name -->
+        <div class="stat">
+            <span>Name:</span> <span id="nameDisplay">Loading...</span>
+        </div>
+
+        <!-- Color Combination -->
+        <div class="stat">
+            <span>Color Combination:</span> <span id="colorDisplay">Loading...</span>
+        </div>
+
+        <!-- Wins, Losses, Draws in w:l:d format -->
+        <div class="stat">
+            <span>W:L:D:</span> <span id="statDisplay">Loading...</span>
+        </div>
+
+        <!-- Lore Counter -->
+        <div class="lore-counter">
+            <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/d14ea819-bcbe-49dc-99b9-e81086106809/dhro31k-da79efd9-b141-4a51-a21f-a4c9776df7fb.png/v1/fill/w_832,h_961/lorcana_tcg_symbols___basic_ink__vector_file__by_roshmalum_dhro31k-pre.png" 
+                 alt="Lorcana Lore Image">
+            <span class="counter-value" id="counterDisplay">0</span>
+        </div>
+    </div>
+
 </body>
 </html>
