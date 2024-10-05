@@ -15,16 +15,15 @@
             margin: 0;
         }
         .container {
-            display: flex;
-            justify-content: space-between;
             margin: 20px;
+            width: fit-content; /* Container adjusts to the content size */
         }
         .section {
             border: 1px solid #ccc;
             border-radius: 8px;
             padding: 20px;
-            width: 45%;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
         .color-options {
             display: grid;
@@ -36,7 +35,6 @@
         .color-options img {
             width: 50px;
             height: auto;
-            margin: 5px;
         }
         .dropdowns {
             display: flex;
@@ -55,13 +53,14 @@
         }
         .lore-counter {
             position: relative;
-            text-align: center;
+            display: inline-block;
             margin-top: 20px;
+            width: 300px; /* Ensure the container size matches the image width */
+            height: auto;
         }
         .lore-counter img {
-            width: 300px;
+            width: 100%; /* Ensure image fits the container */
             height: auto;
-            cursor: pointer;
         }
         .counter-value {
             position: absolute;
@@ -80,15 +79,21 @@
             width: 50%;
             height: 100%;
             cursor: pointer;
+            color: white;
+            font-size: 36px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             z-index: 20;
         }
         .half-button.left {
             left: 0;
-            background: rgba(255, 0, 0, 0.2); /* Slight red tint to visualize the button */
+            background-color: transparent; /* Transparent button */
         }
         .half-button.right {
             right: 0;
-            background: rgba(0, 255, 0, 0.2); /* Slight green tint to visualize the button */
+            background-color: transparent; /* Transparent button */
         }
     </style>
     <!-- Firebase SDK -->
@@ -255,8 +260,8 @@
                 <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/d14ea819-bcbe-49dc-99b9-e81086106809/dhro31k-da79efd9-b141-4a51-a21f-a4c9776df7fb.png" alt="Lorcana Lore Image">
 
                 <!-- Left and right clickable areas for increment and decrement -->
-                <div class="half-button left"></div>
-                <div class="half-button right"></div>
+                <div class="half-button left">-</div>
+                <div class="half-button right">+</div>
 
                 <!-- Counter display -->
                 <span class="counter-value" id="counterDisplay">0</span>
