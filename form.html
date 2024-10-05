@@ -20,6 +20,13 @@
             width: 45%;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
         }
+        .color-options {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .color-options label {
+            margin-right: 10px;
+        }
         button {
             margin: 0 10px;
             padding: 5px;
@@ -46,7 +53,6 @@
         let counterValue = 0;
 
         window.onload = () => {
-            const counterNameInput = document.getElementById('counterNameInput');
             const counterWinSelect = document.getElementById('counterWinSelect');
             const counterLossSelect = document.getElementById('counterLossSelect');
             const counterDrawSelect = document.getElementById('counterDrawSelect');
@@ -54,7 +60,6 @@
 
             // Function to update Firebase
             function updateDatabase() {
-                const counterName = counterNameInput.value;
                 const counterColor = Array.from(document.querySelectorAll('input[name="counterColor"]:checked')).map(el => el.value);
                 const counterWins = counterWinSelect.value;
                 const counterLosses = counterLossSelect.value;
@@ -62,7 +67,6 @@
 
                 set(ref(database, 'formData'), {
                     counter: {
-                        name: counterName,
                         color: counterColor,
                         wins: counterWins,
                         losses: counterLosses,
@@ -87,7 +91,6 @@
             }
 
             // Event listeners for inputs
-            counterNameInput.oninput = updateDatabase;
             counterWinSelect.onchange = updateDatabase;
             counterLossSelect.onchange = updateDatabase;
             counterDrawSelect.onchange = updateDatabase;
@@ -113,16 +116,15 @@
     <div class="container">
         <div class="section">
             <h2>Counter</h2>
-            <label for="counterNameInput">Name:</label>
-            <input type="text" id="counterNameInput" placeholder="Enter Counter Name" />
 
-            <p><strong>Color Combination:</strong></p>
-            <label><input type="checkbox" name="counterColor" value="red"> Red</label><br>
-            <label><input type="checkbox" name="counterColor" value="blue"> Blue</label><br>
-            <label><input type="checkbox" name="counterColor" value="green"> Green</label><br>
-            <label><input type="checkbox" name="counterColor" value="yellow"> Yellow</label><br>
-            <label><input type="checkbox" name="counterColor" value="purple"> Purple</label><br>
-            <label><input type="checkbox" name="counterColor" value="steel"> Steel</label><br>
+            <div class="color-options">
+                <label><input type="checkbox" name="counterColor" value="red"> Red</label>
+                <label><input type="checkbox" name="counterColor" value="blue"> Blue</label>
+                <label><input type="checkbox" name="counterColor" value="green"> Green</label>
+                <label><input type="checkbox" name="counterColor" value="yellow"> Yellow</label>
+                <label><input type="checkbox" name="counterColor" value="purple"> Purple</label>
+                <label><input type="checkbox" name="counterColor" value="steel"> Steel</label>
+            </div>
 
             <label for="counterWinSelect">Wins:</label>
             <select id="counterWinSelect">
@@ -155,7 +157,7 @@
             </select>
 
             <div>
-                <h4>Counter Value</h4>
+                <h4>Lore</h4>
                 <div>
                     <button onclick="decrementCounter()">-</button>
                     <span id="counterDisplay">0</span>
