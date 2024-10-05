@@ -11,14 +11,16 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            background-color: #f5f5f5;
         }
         .container {
             display: flex;
             justify-content: space-between;
-            width: fit-content;
-            gap: 40px;
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
         }
         .section {
             border: 1px solid #ccc;
@@ -27,6 +29,7 @@
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
             text-align: left;
             margin: 10px;
+            width: 45%;
         }
         h2 {
             margin-bottom: 20px;
@@ -42,15 +45,14 @@
         }
         .lore-counter {
             display: flex;
-            justify-content: flex-start;
-            gap: 10px;
             align-items: center;
+            gap: 10px;
         }
         .lore-counter img {
             width: 100px;
             height: auto;
         }
-        .record {
+        .round {
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 20px;
@@ -81,7 +83,7 @@
         const database = getDatabase(app);
 
         window.onload = () => {
-            const recordCounterDisplay = document.getElementById('recordCounterDisplay');
+            const roundDisplay = document.getElementById('roundDisplay');
             const counterNameDisplay = document.getElementById('counterNameDisplay');
             const counterInksDisplay = document.getElementById('counterInksDisplay');
             const counterWLDDisplay = document.getElementById('counterWLDDisplay');
@@ -92,10 +94,10 @@
             const doorWLDDisplay = document.getElementById('doorWLDDisplay');
             const doorLoreDisplay = document.getElementById('doorLoreDisplay');
 
-            // Record Counter Display
-            onValue(ref(database, 'formData/recordValue'), (snapshot) => {
+            // Round Display
+            onValue(ref(database, 'formData/roundValue'), (snapshot) => {
                 if (snapshot.exists()) {
-                    recordCounterDisplay.textContent = snapshot.val();
+                    roundDisplay.textContent = snapshot.val();
                 }
             });
 
@@ -135,9 +137,9 @@
 </head>
 <body>
 
-    <!-- Record Display -->
-    <div class="record">
-        Record: <span id="recordCounterDisplay">0</span>
+    <!-- Round Display -->
+    <div class="round">
+        Round: <span id="roundDisplay">0</span>
     </div>
 
     <!-- Counter and Door Sections Display -->
