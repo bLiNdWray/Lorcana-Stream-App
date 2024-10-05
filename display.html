@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lorcana Display</title>
+    <title>Counter Display</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,16 +12,22 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f4f4f4;
+            background-color: transparent;
         }
         .display-container {
-            text-align: center;
-            border: 1px solid #ccc;
-            border-radius: 8px;
+            text-align: left; /* Left justify content */
             padding: 20px;
             width: 400px;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-            background-color: white;
+            background-color: transparent;
+        }
+        .stat {
+            margin: 10px 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .stat span {
+            font-weight: normal;
         }
         .lore-counter {
             position: relative;
@@ -42,13 +48,6 @@
             color: white;
             font-weight: bold;
             z-index: 10;
-        }
-        .stat {
-            margin: 10px 0;
-            font-size: 20px;
-        }
-        .stat span {
-            font-weight: bold;
         }
     </style>
     <!-- Import Firebase Modular SDK -->
@@ -76,7 +75,7 @@
         // Wait until DOM is loaded
         window.onload = () => {
             const nameDisplay = document.getElementById('nameDisplay');
-            const colorDisplay = document.getElementById('colorDisplay');
+            const inkDisplay = document.getElementById('inkDisplay');
             const statDisplay = document.getElementById('statDisplay');
             const counterDisplay = document.getElementById('counterDisplay');
 
@@ -91,15 +90,15 @@
                     // Set player name
                     nameDisplay.textContent = data.name || 'No Name';
 
-                    // Set color combination
+                    // Set ink colors
                     const selectedColors = data.selectedColors || [];
                     if (selectedColors.length > 0) {
-                        colorDisplay.textContent = selectedColors.join(' + ');
+                        inkDisplay.textContent = selectedColors.join(' + ');
                     } else {
-                        colorDisplay.textContent = 'No Colors Selected';
+                        inkDisplay.textContent = 'No Inks Selected';
                     }
 
-                    // Set wins, losses, draws
+                    // Set wins, losses, draws in w:l:d format
                     const wins = data.wins || 0;
                     const losses = data.losses || 0;
                     const draws = data.draws || 0;
@@ -115,21 +114,19 @@
 <body>
 
     <div class="display-container">
-        <h1>Lorcana Display</h1>
-
         <!-- Player Name -->
         <div class="stat">
-            <span>Name:</span> <span id="nameDisplay">Loading...</span>
+            Name: <span id="nameDisplay">Loading...</span>
         </div>
 
-        <!-- Color Combination -->
+        <!-- Ink Colors -->
         <div class="stat">
-            <span>Color Combination:</span> <span id="colorDisplay">Loading...</span>
+            Ink: <span id="inkDisplay">Loading...</span>
         </div>
 
         <!-- Wins, Losses, Draws in w:l:d format -->
         <div class="stat">
-            <span>W:L:D:</span> <span id="statDisplay">Loading...</span>
+            W:L:D: <span id="statDisplay">Loading...</span>
         </div>
 
         <!-- Lore Counter -->
