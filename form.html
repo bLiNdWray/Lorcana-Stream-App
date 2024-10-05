@@ -16,9 +16,9 @@
         }
         .container {
             display: flex;
-            justify-content: space-between; /* Display sections side by side */
-            margin: 20px;
-            width: fit-content;
+            justify-content: space-between; /* Justifies sections to far left and far right */
+            width: 100%; /* Use full width */
+            padding: 0 50px; /* Add some padding on the sides */
         }
         .section {
             border: 1px solid #ccc;
@@ -26,7 +26,7 @@
             padding: 20px;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
             text-align: center;
-            margin: 10px;
+            width: 40%; /* Ensure sections take reasonable width */
         }
         h2 {
             margin-bottom: 20px;
