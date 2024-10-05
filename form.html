@@ -110,23 +110,28 @@
             justify-content: flex-end; /* Ensure the plus button is centered */
             padding-right: 20px;
         }
-        .record-counter {
+        .round-counter {
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 20px;
         }
-        .record-counter span {
+        .round-counter span {
             font-size: 72px;
             margin: 0 20px;
         }
-        .record-button {
+        .round-label {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        .round-button {
             font-size: 36px;
-            background-color: transparent;
+            background-color: black;
+            color: white;
             border: none;
             cursor: pointer;
-            color: white;
             font-weight: bold;
+            padding: 5px 15px;
         }
     </style>
     <!-- Firebase SDK -->
@@ -172,13 +177,13 @@
             const leftButtonDoor = document.querySelector('.half-button.left.door');
             const rightButtonDoor = document.querySelector('.half-button.right.door');
 
-            const recordCounter = document.getElementById('recordCounter');
-            const incrementRecordButton = document.getElementById('incrementRecordButton');
-            const decrementRecordButton = document.getElementById('decrementRecordButton');
+            const roundCounter = document.getElementById('roundCounter');
+            const incrementRoundButton = document.getElementById('incrementRoundButton');
+            const decrementRoundButton = document.getElementById('decrementRoundButton');
 
             let counterValueCounter = 0;
             let counterValueDoor = 0;
-            let recordValue = 0;
+            let roundValue = 0;
 
             // Function to save Counter form data to Firebase
             function saveCounterFormData() {
@@ -222,9 +227,9 @@
                 set(ref(database, 'formData/door'), formData);
             }
 
-            // Function to save Record data to Firebase
-            function saveRecordData() {
-                set(ref(database, 'formData/recordValue'), recordValue);
+            // Function to save Round data to Firebase
+            function saveRoundData() {
+                set(ref(database, 'formData/roundValue'), roundValue);
             }
 
             // Increment and decrement counter for Counter section
@@ -257,18 +262,18 @@
                 }
             });
 
-            // Increment and decrement record counter
-            incrementRecordButton.addEventListener('click', () => {
-                recordValue++;
-                recordCounter.textContent = recordValue;
-                saveRecordData();
+            // Increment and decrement round counter
+            incrementRoundButton.addEventListener('click', () => {
+                roundValue++;
+                roundCounter.textContent = roundValue;
+                saveRoundData();
             });
 
-            decrementRecordButton.addEventListener('click', () => {
-                if (recordValue > 0) {
-                    recordValue--;
-                    recordCounter.textContent = recordValue;
-                    saveRecordData();
+            decrementRoundButton.addEventListener('click', () => {
+                if (roundValue > 0) {
+                    roundValue--;
+                    roundCounter.textContent = roundValue;
+                    saveRoundData();
                 }
             });
 
@@ -305,10 +310,10 @@
                 }
             });
 
-            get(ref(database, 'formData/recordValue')).then(snapshot => {
+            get(ref(database, 'formData/roundValue')).then(snapshot => {
                 if (snapshot.exists()) {
-                    recordValue = snapshot.val();
-                    recordCounter.textContent = recordValue;
+                    roundValue = snapshot.val();
+                    roundCounter.textContent = roundValue;
                 }
             });
         };
@@ -316,11 +321,12 @@
 </head>
 <body>
 
-    <!-- Record Counter -->
-    <div class="record-counter">
-        <button class="record-button" id="decrementRecordButton">-</button>
-        <span id="recordCounter">0</span>
-        <button class="record-button" id="incrementRecordButton">+</button>
+    <!-- Round Counter -->
+    <div class="round-counter">
+        <label class="round-label">Round:</label>
+        <button class="round-button" id="decrementRoundButton">-</button>
+        <span id="roundCounter">0</span>
+        <button class="round-button" id="incrementRoundButton">+</button>
     </div>
 
     <!-- Counter and Door Sections Side by Side -->
