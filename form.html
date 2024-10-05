@@ -31,6 +31,12 @@
             margin: 0 10px;
             padding: 5px;
         }
+        input[type="text"] {
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 8px;
+            box-sizing: border-box;
+        }
     </style>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
@@ -53,6 +59,7 @@
         let counterValue = 0;
 
         window.onload = () => {
+            const nameInput = document.getElementById('nameInput');
             const counterWinSelect = document.getElementById('counterWinSelect');
             const counterLossSelect = document.getElementById('counterLossSelect');
             const counterDrawSelect = document.getElementById('counterDrawSelect');
@@ -60,12 +67,16 @@
 
             // Function to update Firebase
             function updateDatabase() {
+                const playerName = nameInput.value;
                 const counterColor = Array.from(document.querySelectorAll('input[name="counterColor"]:checked')).map(el => el.value);
                 const counterWins = counterWinSelect.value;
                 const counterLosses = counterLossSelect.value;
                 const counterDraws = counterDrawSelect.value;
 
                 set(ref(database, 'formData'), {
+                    player: {
+                        name: playerName
+                    },
                     counter: {
                         color: counterColor,
                         wins: counterWins,
@@ -91,6 +102,7 @@
             }
 
             // Event listeners for inputs
+            nameInput.oninput = updateDatabase;
             counterWinSelect.onchange = updateDatabase;
             counterLossSelect.onchange = updateDatabase;
             counterDrawSelect.onchange = updateDatabase;
@@ -111,10 +123,11 @@
     </script>
 </head>
 <body>
-    <h1>Lorcana TCG Form</h1>
 
     <div class="container">
         <div class="section">
+            <input type="text" id="nameInput" placeholder="Enter Name" />
+
             <h2>Counter</h2>
 
             <div class="color-options">
