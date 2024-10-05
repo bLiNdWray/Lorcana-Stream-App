@@ -25,19 +25,17 @@
             padding: 20px;
             width: 45%;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
         .color-options {
             display: flex;
             flex-wrap: wrap;
-            align-items: center;
-        }
-        .color-options label {
-            margin-right: 10px;
+            justify-content: center;
         }
         .ink-image {
-            width: 50px; /* Adjust as needed */
+            width: 50px;
             height: auto;
-            margin-left: 10px;
+            margin: 5px;
         }
         button {
             margin: 0 10px;
@@ -45,7 +43,7 @@
         }
         input[type="text"] {
             width: 100%;
-            margin-top: 15px;
+            margin-bottom: 15px;
             padding: 8px;
             box-sizing: border-box;
         }
@@ -53,22 +51,22 @@
             position: relative;
             display: inline-block;
             text-align: center;
+            margin-top: 20px;
         }
         .lore-counter img {
-            width: 300px; /* Adjust based on actual image size */
+            width: 300px;
             height: auto;
         }
         .counter-value {
             position: absolute;
-            top: 50%;  
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 24px; 
-            color: white; 
+            font-size: 24px;
+            color: white;
             font-weight: bold;
             z-index: 10;
         }
-        /* Style for the increment and decrement buttons */
         .counter-button {
             position: absolute;
             top: 50%;
@@ -82,10 +80,10 @@
             z-index: 20;
         }
         .decrement {
-            left: -50px; /* Position on the left of the image */
+            left: 10%;
         }
         .increment {
-            right: -50px; /* Position on the right of the image */
+            right: 10%;
         }
     </style>
     <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js"></script>
@@ -95,48 +93,33 @@
 
     <div class="container">
         <div class="section">
+            <!-- Moved the name input field inside the counter section -->
+            <input type="text" id="nameInput" placeholder="Enter Name" />
+
             <h2>Counter</h2>
 
             <div class="color-options">
-                <!-- Amber Ink -->
-                <label><input type="checkbox" name="counterInk" value="Amber"> Amber</label>
+                <!-- Only displaying the ink images without labels -->
                 <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_amber.png" class="ink-image" alt="Amber Ink">
-                
-                <!-- Amethyst Ink -->
-                <label><input type="checkbox" name="counterInk" value="Amethyst"> Amethyst</label>
                 <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_amethyst.png" class="ink-image" alt="Amethyst Ink">
-                
-                <!-- Emerald Ink -->
-                <label><input type="checkbox" name="counterInk" value="Emerald"> Emerald</label>
                 <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_emerald.png" class="ink-image" alt="Emerald Ink">
-                
-                <!-- Ruby Ink -->
-                <label><input type="checkbox" name="counterInk" value="Ruby"> Ruby</label>
                 <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_ruby.png" class="ink-image" alt="Ruby Ink">
-                
-                <!-- Sapphire Ink -->
-                <label><input type="checkbox" name="counterInk" value="Sapphire"> Sapphire</label>
                 <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_sapphire.png" class="ink-image" alt="Sapphire Ink">
-                
-                <!-- Steel Ink -->
-                <label><input type="checkbox" name="counterInk" value="Steel"> Steel</label>
                 <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_steel.png" class="ink-image" alt="Steel Ink">
             </div>
 
             <div class="lore-counter">
-                <!-- Decrease button -->
+                <!-- Minus button on the left side -->
                 <button class="counter-button decrement" onclick="decrementCounter()">-</button>
 
-                <!-- Image and counter display -->
+                <!-- Lore image and counter display -->
                 <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/d14ea819-bcbe-49dc-99b9-e81086106809/dhro31k-da79efd9-b141-4a51-a21f-a4c9776df7fb.png/v1/fill/w_832,h_961/lorcana_tcg_symbols___basic_ink__vector_file__by_roshmalum_dhro31k-pre.png" 
                      alt="Lorcana Lore Image">
                 <span class="counter-value" id="counterDisplay">0</span>
 
-                <!-- Increase button -->
+                <!-- Plus button on the right side -->
                 <button class="counter-button increment" onclick="incrementCounter()">+</button>
             </div>
-
-            <input type="text" id="nameInput" placeholder="Enter Name" />
         </div>
     </div>
 
