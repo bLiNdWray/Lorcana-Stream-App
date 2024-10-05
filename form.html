@@ -26,15 +26,24 @@
         let counterValue = 0; // Initialize counter
         const nameInput = document.getElementById('nameInput');
         const colorSelect = document.getElementById('colorSelect');
+        const winSelect = document.getElementById('winSelect');
+        const lossSelect = document.getElementById('lossSelect');
+        const drawSelect = document.getElementById('drawSelect');
         const counterDisplay = document.getElementById('counterDisplay');
 
         // Function to update Firebase
         function updateDatabase() {
             const name = nameInput.value;
             const selectedColor = colorSelect.value;
+            const wins = winSelect.value;
+            const losses = lossSelect.value;
+            const draws = drawSelect.value;
             set(ref(database, 'formData'), {
                 name: name,
                 color: selectedColor,
+                wins: wins,
+                losses: losses,
+                draws: draws,
                 counter: counterValue
             });
         }
@@ -59,10 +68,14 @@
         // Event listeners for inputs
         nameInput.addEventListener('input', updateDatabase);
         colorSelect.addEventListener('change', updateDatabase);
+        winSelect.addEventListener('change', updateDatabase);
+        lossSelect.addEventListener('change', updateDatabase);
+        drawSelect.addEventListener('change', updateDatabase);
     </script>
 </head>
 <body>
     <h1>Lorcana TCG Form</h1>
+    
     <label for="nameInput">Your Name:</label>
     <input type="text" id="nameInput" placeholder="Enter your name" />
 
@@ -76,6 +89,39 @@
         <option value="purple">Purple</option>
         <option value="red-blue">Red & Blue</option>
         <!-- Add more combinations as needed -->
+    </select>
+
+    <label for="winSelect">Wins:</label>
+    <select id="winSelect">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <!-- Add more options as needed -->
+    </select>
+
+    <label for="lossSelect">Losses:</label>
+    <select id="lossSelect">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <!-- Add more options as needed -->
+    </select>
+
+    <label for="drawSelect">Draws:</label>
+    <select id="drawSelect">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <!-- Add more options as needed -->
     </select>
 
     <div id="colorImage">
