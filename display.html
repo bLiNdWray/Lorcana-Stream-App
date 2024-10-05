@@ -123,6 +123,25 @@
 
             const roundDisplay = document.getElementById('roundDisplay');
 
+            // Function to handle displaying two ink images (either selected or default)
+            function displayInkImages(inkArray, element) {
+                element.innerHTML = ''; // Clear previous images
+
+                const defaultImage = "https://cdn.shopify.com/s/files/1/0615/8624/3793/files/Ink-Silo.png?v=1728107944";
+                let selectedInks = inkArray || [];
+
+                // Ensure at least two images are displayed (ink or default)
+                for (let i = 0; i < 2; i++) {
+                    const img = document.createElement('img');
+                    if (selectedInks[i]) {
+                        img.src = `https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_${selectedInks[i].toLowerCase()}.png`;
+                    } else {
+                        img.src = defaultImage; // Default image for unselected slots
+                    }
+                    element.appendChild(img);
+                }
+            }
+
             // Fetch Round Data
             onValue(ref(database, 'formData/roundValue'), (snapshot) => {
                 if (snapshot.exists()) {
@@ -138,19 +157,9 @@
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     counterNameDisplay.textContent = data.name || 'Unknown';
-                    counterInksDisplay.innerHTML = ''; // Clear previous ink images
 
-                    if (Array.isArray(data.counter.color)) {
-                        data.counter.color.forEach(ink => {
-                            const img = document.createElement('img');
-                            img.src = ink ? `https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_${ink.toLowerCase()}.png` : "https://cdn.shopify.com/s/files/1/0615/8624/3793/files/Ink-Silo.png?v=1728107944";
-                            counterInksDisplay.appendChild(img);
-                        });
-                    } else {
-                        const img = document.createElement('img');
-                        img.src = "https://cdn.shopify.com/s/files/1/0615/8624/3793/files/Ink-Silo.png?v=1728107944"; // Default image if no inks selected
-                        counterInksDisplay.appendChild(img);
-                    }
+                    // Display selected inks or default images
+                    displayInkImages(data.counter.color, counterInksDisplay);
 
                     counterWLDDisplay.textContent = `${data.counter.wins || 0}:${data.counter.losses || 0}:${data.counter.draws || 0}`;
                     counterLoreDisplay.textContent = data.counterValue || 0;
@@ -164,19 +173,9 @@
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     doorNameDisplay.textContent = data.name || 'Unknown';
-                    doorInksDisplay.innerHTML = ''; // Clear previous ink images
 
-                    if (Array.isArray(data.door.color)) {
-                        data.door.color.forEach(ink => {
-                            const img = document.createElement('img');
-                            img.src = ink ? `https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_${ink.toLowerCase()}.png` : "https://cdn.shopify.com/s/files/1/0615/8624/3793/files/Ink-Silo.png?v=1728107944";
-                            doorInksDisplay.appendChild(img);
-                        });
-                    } else {
-                        const img = document.createElement('img');
-                        img.src = "https://cdn.shopify.com/s/files/1/0615/8624/3793/files/Ink-Silo.png?v=1728107944"; // Default image if no inks selected
-                        doorInksDisplay.appendChild(img);
-                    }
+                    // Display selected inks or default images
+                    displayInkImages(data.door.color, doorInksDisplay);
 
                     doorWLDDisplay.textContent = `${data.door.wins || 0}:${data.door.losses || 0}:${data.door.draws || 0}`;
                     doorLoreDisplay.textContent = data.counterValue || 0;
