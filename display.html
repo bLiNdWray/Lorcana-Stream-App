@@ -112,12 +112,11 @@
                     console.log("Counter ink field:", data.ink); // Log the ink field
 
                     counterNameDisplay.textContent = data.name || 'Unknown';
-                    counterInksDisplay.innerHTML = ''; // Clear previous
+                    counterInksDisplay.innerHTML = ''; // Clear previous ink images
 
-                    // Handle ink as object using Object.values()
-                    if (typeof data.ink === 'object' && data.ink !== null) {
-                        console.log("Processing ink object:", data.ink);
-                        Object.values(data.ink).forEach(ink => {
+                    // Handle ink as array and display corresponding images
+                    if (Array.isArray(data.ink)) {
+                        data.ink.forEach(ink => {
                             const img = document.createElement('img');
                             img.src = `https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_${ink.toLowerCase()}.png`;
                             counterInksDisplay.appendChild(img);
@@ -143,12 +142,11 @@
                     console.log("Door ink field:", data.ink); // Log the ink field
 
                     doorNameDisplay.textContent = data.name || 'Unknown';
-                    doorInksDisplay.innerHTML = ''; // Clear previous
+                    doorInksDisplay.innerHTML = ''; // Clear previous ink images
 
-                    // Handle ink as object using Object.values()
-                    if (typeof data.ink === 'object' && data.ink !== null) {
-                        console.log("Processing ink object:", data.ink);
-                        Object.values(data.ink).forEach(ink => {
+                    // Handle ink as array and display corresponding images
+                    if (Array.isArray(data.ink)) {
+                        data.ink.forEach(ink => {
                             const img = document.createElement('img');
                             img.src = `https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_${ink.toLowerCase()}.png`;
                             doorInksDisplay.appendChild(img);
