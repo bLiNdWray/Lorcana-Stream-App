@@ -23,6 +23,7 @@
         }
         h2 {
             text-align: center;
+            margin-bottom: 20px;
         }
         .stat {
             margin: 10px 0;
@@ -31,6 +32,15 @@
         }
         .stat span {
             font-weight: normal;
+        }
+        .ink-display {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .ink-display img {
+            width: 50px;
+            height: auto;
         }
         .lore-counter {
             position: relative;
@@ -93,15 +103,29 @@
                     // Set player name
                     nameDisplay.textContent = data.name || 'No Name';
 
-                    // Set ink colors (from checkbox selection)
+                    // Set ink images (based on checked inks)
                     const selectedColors = data.counter.color || [];
-                    if (selectedColors.length > 0) {
-                        inkDisplay.textContent = selectedColors.join(' + ');
-                    } else {
-                        inkDisplay.textContent = 'No Inks Selected';
-                    }
+                    const inkImages = {
+                        Amber: 'https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_amber.png',
+                        Amethyst: 'https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_amethyst.png',
+                        Emerald: 'https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_emerald.png',
+                        Ruby: 'https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_ruby.png',
+                        Sapphire: 'https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_sapphire.png',
+                        Steel: 'https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_steel.png'
+                    };
 
-                    // Set wins, losses, draws from dropdown
+                    inkDisplay.innerHTML = ''; // Clear any existing ink images
+
+                    selectedColors.slice(0, 2).forEach((color) => {
+                        if (inkImages[color]) {
+                            const img = document.createElement('img');
+                            img.src = inkImages[color];
+                            img.alt = `${color} Ink`;
+                            inkDisplay.appendChild(img);
+                        }
+                    });
+
+                    // Set wins, losses, draws in #:#:# format
                     const wins = data.counter.wins || 0;
                     const losses = data.counter.losses || 0;
                     const draws = data.counter.draws || 0;
@@ -125,12 +149,15 @@
             Name: <span id="nameDisplay">Loading...</span>
         </div>
 
-        <!-- Ink Colors (checkmarked) -->
+        <!-- Ink Images (up to 2 checked images) -->
         <div class="stat">
-            Ink: <span id="inkDisplay">Loading...</span>
+            Ink: 
+            <div id="inkDisplay" class="ink-display">
+                Loading...
+            </div>
         </div>
 
-        <!-- Wins, Losses, Draws in w:l:d format -->
+        <!-- Wins, Losses, Draws in #:#:# format -->
         <div class="stat">
             W:L:D: <span id="statDisplay">Loading...</span>
         </div>
