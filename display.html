@@ -28,14 +28,14 @@
             padding: 20px;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
             text-align: left;
-            width: auto; /* Allow width to fit the contents */
+            width: auto;
         }
         h2 {
             margin-bottom: 20px;
             text-align: left;
         }
         .color-options {
-            display: flex; /* Change from grid to flex to left-justify items */
+            display: flex;
             gap: 10px;
             justify-content: flex-start;
             flex-wrap: wrap;
@@ -76,6 +76,20 @@
             color: white;
             z-index: 10;
         }
+        /* Record Section */
+        .record-section {
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            width: auto;
+        }
+        .record-section p {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
     </style>
 
     <script type="module">
@@ -106,6 +120,18 @@
             const doorInksDisplay = document.getElementById('doorInksDisplay');
             const doorWLDDisplay = document.getElementById('doorWLDDisplay');
             const doorLoreDisplay = document.getElementById('doorLoreDisplay');
+
+            const recordDisplay = document.getElementById('recordDisplay');
+
+            // Fetch Record Data
+            onValue(ref(database, 'formData/record'), (snapshot) => {
+                if (snapshot.exists()) {
+                    const record = snapshot.val();
+                    recordDisplay.textContent = `Record: ${record.wins || 0} Wins, ${record.losses || 0} Losses, ${record.draws || 0} Draws`;
+                } else {
+                    recordDisplay.textContent = "No record data found.";
+                }
+            });
 
             // Fetch Counter Data
             onValue(ref(database, 'formData/counter'), (snapshot) => {
@@ -158,6 +184,11 @@
     </script>
 </head>
 <body>
+
+    <!-- Record Section -->
+    <div class="record-section">
+        <p id="recordDisplay">Record: Loading...</p>
+    </div>
 
     <div class="container">
         <!-- Counter Section -->
