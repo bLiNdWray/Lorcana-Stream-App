@@ -28,6 +28,7 @@
         const counterDisplay = document.getElementById('counterDisplay');
         let counterValue = 0;
 
+        // Function to update Firebase
         function updateDatabase() {
             const name = nameInput.value;
             const selectedColor = colorSelect.value;
@@ -43,6 +44,7 @@
 
         function incrementCounter() {
             counterValue++;
+            console.log("Counter incremented to:", counterValue);
             counterDisplay.textContent = counterValue;
             updateDatabase();
         }
@@ -50,6 +52,7 @@
         function decrementCounter() {
             if (counterValue > 0) {
                 counterValue--;
+                console.log("Counter decremented to:", counterValue);
                 counterDisplay.textContent = counterValue;
                 updateDatabase();
             }
