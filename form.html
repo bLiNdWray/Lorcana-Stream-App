@@ -25,6 +25,9 @@
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
+        h2 {
+            margin-bottom: 20px;
+        }
         .color-options {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -186,38 +189,39 @@
 </head>
 <body>
 
-    <h1>Lorcana TCG Form</h1>
-
     <div class="container">
         <div class="section">
+            <!-- Section label -->
+            <h2>Counter</h2>
+
             <!-- Player name input -->
             <input type="text" id="nameInput" placeholder="Enter Player Name" />
 
             <!-- Ink selection -->
             <div class="color-options">
                 <label>
+                    <input type="checkbox" name="counterInk" value="Amber">
                     <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_amber.png" alt="Amber Ink">
-                    <input type="checkbox" name="counterInk" value="Amber"> Amber
                 </label>
                 <label>
+                    <input type="checkbox" name="counterInk" value="Amethyst">
                     <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_amethyst.png" alt="Amethyst Ink">
-                    <input type="checkbox" name="counterInk" value="Amethyst"> Amethyst
                 </label>
                 <label>
+                    <input type="checkbox" name="counterInk" value="Emerald">
                     <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_emerald.png" alt="Emerald Ink">
-                    <input type="checkbox" name="counterInk" value="Emerald"> Emerald
                 </label>
                 <label>
+                    <input type="checkbox" name="counterInk" value="Ruby">
                     <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_ruby.png" alt="Ruby Ink">
-                    <input type="checkbox" name="counterInk" value="Ruby"> Ruby
                 </label>
                 <label>
+                    <input type="checkbox" name="counterInk" value="Sapphire">
                     <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_sapphire.png" alt="Sapphire Ink">
-                    <input type="checkbox" name="counterInk" value="Sapphire"> Sapphire
                 </label>
                 <label>
+                    <input type="checkbox" name="counterInk" value="Steel">
                     <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_steel.png" alt="Steel Ink">
-                    <input type="checkbox" name="counterInk" value="Steel"> Steel
                 </label>
             </div>
 
