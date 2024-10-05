@@ -24,11 +24,13 @@
         const database = getDatabase(app);
 
         let counterValue = 0; // Initialize counter
-        const nameInput = document.getElementById('nameInput');
-        const colorSelect = document.getElementById('colorSelect');
+        const counterNameInput = document.getElementById('counterNameInput');
+        const counterColorSelect = document.getElementById('counterColorSelect');
         const counterWinSelect = document.getElementById('counterWinSelect');
         const counterLossSelect = document.getElementById('counterLossSelect');
         const counterDrawSelect = document.getElementById('counterDrawSelect');
+        const doorNameInput = document.getElementById('doorNameInput');
+        const doorColorSelect = document.getElementById('doorColorSelect');
         const doorWinSelect = document.getElementById('doorWinSelect');
         const doorLossSelect = document.getElementById('doorLossSelect');
         const doorDrawSelect = document.getElementById('doorDrawSelect');
@@ -36,24 +38,28 @@
 
         // Function to update Firebase
         function updateDatabase() {
-            const name = nameInput.value;
-            const selectedColor = colorSelect.value;
+            const counterName = counterNameInput.value;
+            const counterColor = counterColorSelect.value;
             const counterWins = counterWinSelect.value;
             const counterLosses = counterLossSelect.value;
             const counterDraws = counterDrawSelect.value;
+            const doorName = doorNameInput.value;
+            const doorColor = doorColorSelect.value;
             const doorWins = doorWinSelect.value;
             const doorLosses = doorLossSelect.value;
             const doorDraws = doorDrawSelect.value;
 
             set(ref(database, 'formData'), {
-                name: name,
-                color: selectedColor,
                 counter: {
+                    name: counterName,
+                    color: counterColor,
                     wins: counterWins,
                     losses: counterLosses,
                     draws: counterDraws
                 },
                 door: {
+                    name: doorName,
+                    color: doorColor,
                     wins: doorWins,
                     losses: doorLosses,
                     draws: doorDraws
@@ -80,11 +86,13 @@
         }
 
         // Event listeners for inputs
-        nameInput.addEventListener('input', updateDatabase);
-        colorSelect.addEventListener('change', updateDatabase);
+        counterNameInput.addEventListener('input', updateDatabase);
+        counterColorSelect.addEventListener('change', updateDatabase);
         counterWinSelect.addEventListener('change', updateDatabase);
         counterLossSelect.addEventListener('change', updateDatabase);
         counterDrawSelect.addEventListener('change', updateDatabase);
+        doorNameInput.addEventListener('input', updateDatabase);
+        doorColorSelect.addEventListener('change', updateDatabase);
         doorWinSelect.addEventListener('change', updateDatabase);
         doorLossSelect.addEventListener('change', updateDatabase);
         doorDrawSelect.addEventListener('change', updateDatabase);
@@ -92,12 +100,13 @@
 </head>
 <body>
     <h1>Lorcana TCG Form</h1>
-    
-    <label for="nameInput">Your Name:</label>
-    <input type="text" id="nameInput" placeholder="Enter your name" />
 
-    <label for="colorSelect">Select Color Combination:</label>
-    <select id="colorSelect">
+    <h2>Counter Section</h2>
+    <label for="counterNameInput">Counter Name:</label>
+    <input type="text" id="counterNameInput" placeholder="Enter Counter Name" />
+
+    <label for="counterColorSelect">Select Color Combination:</label>
+    <select id="counterColorSelect">
         <option value="">Select a color</option>
         <option value="red">Red</option>
         <option value="blue">Blue</option>
@@ -108,7 +117,6 @@
         <!-- Add more combinations as needed -->
     </select>
 
-    <h2>Counter</h2>
     <label for="counterWinSelect">Wins:</label>
     <select id="counterWinSelect">
         <option value="0">0</option>
@@ -117,7 +125,6 @@
         <option value="3">3</option>
         <option value="4">4</option>
         <option value="5">5</option>
-        <!-- Add more options as needed -->
     </select>
 
     <label for="counterLossSelect">Losses:</label>
@@ -128,7 +135,6 @@
         <option value="3">3</option>
         <option value="4">4</option>
         <option value="5">5</option>
-        <!-- Add more options as needed -->
     </select>
 
     <label for="counterDrawSelect">Draws:</label>
@@ -139,11 +145,10 @@
         <option value="3">3</option>
         <option value="4">4</option>
         <option value="5">5</option>
-        <!-- Add more options as needed -->
     </select>
 
     <div>
-        <h2>Counter</h2>
+        <h4>Counter Value</h4>
         <img src="https://example.com/lorcana-lore-image.jpg" alt="Lorcana Lore" style="width:100px; height:auto;"/>
         <div>
             <button onclick="decrementCounter()">-</button>
@@ -152,7 +157,22 @@
         </div>
     </div>
 
-    <h2>Door</h2>
+    <h2>Door Section</h2>
+    <label for="doorNameInput">Door Name:</label>
+    <input type="text" id="doorNameInput" placeholder="Enter Door Name" />
+
+    <label for="doorColorSelect">Select Color Combination:</label>
+    <select id="doorColorSelect">
+        <option value="">Select a color</option>
+        <option value="red">Red</option>
+        <option value="blue">Blue</option>
+        <option value="green">Green</option>
+        <option value="yellow">Yellow</option>
+        <option value="purple">Purple</option>
+        <option value="red-blue">Red & Blue</option>
+        <!-- Add more combinations as needed -->
+    </select>
+
     <label for="doorWinSelect">Wins:</label>
     <select id="doorWinSelect">
         <option value="0">0</option>
@@ -161,7 +181,6 @@
         <option value="3">3</option>
         <option value="4">4</option>
         <option value="5">5</option>
-        <!-- Add more options as needed -->
     </select>
 
     <label for="doorLossSelect">Losses:</label>
@@ -172,7 +191,6 @@
         <option value="3">3</option>
         <option value="4">4</option>
         <option value="5">5</option>
-        <!-- Add more options as needed -->
     </select>
 
     <label for="doorDrawSelect">Draws:</label>
@@ -183,39 +201,11 @@
         <option value="3">3</option>
         <option value="4">4</option>
         <option value="5">5</option>
-        <!-- Add more options as needed -->
     </select>
 
     <div>
-        <h2>Door</h2>
+        <h4>Door Value</h4>
         <img src="https://example.com/lorcana-lore-image.jpg" alt="Lorcana Lore" style="width:100px; height:auto;"/>
         <div>
             <button onclick="decrementCounter()">-</button>
-            <span id="counterDisplay">0</span>
-            <button onclick="incrementCounter()">+</button>
-        </div>
-    </div>
-
-    <script>
-        const colorImages = {
-            red: 'https://example.com/red-image.jpg',
-            blue: 'https://example.com/blue-image.jpg',
-            green: 'https://example.com/green-image.jpg',
-            yellow: 'https://example.com/yellow-image.jpg',
-            purple: 'https://example.com/purple-image.jpg',
-            'red-blue': 'https://example.com/red-blue-image.jpg'
-            // Add more image URLs as needed
-        };
-
-        colorSelect.addEventListener('change', function() {
-            const selectedColor = colorSelect.value;
-            const colorImage = document.getElementById('colorImageDisplay');
-
-            if (selectedColor) {
-                colorImage.src = colorImages[selectedColor] || '';
-                colorImage.style.display = 'block';
-            } else {
-                colorImage.style.display = 'none';
-            }
-        });
-    </
+            <span id="counterDisplay">0</span
