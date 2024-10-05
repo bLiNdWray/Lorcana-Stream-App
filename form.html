@@ -24,6 +24,7 @@
             padding: 20px;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
             text-align: center;
+            margin-bottom: 20px; /* Added margin between sections */
         }
         h2 {
             margin-bottom: 20px;
@@ -129,68 +130,133 @@
         const database = getDatabase(app);
 
         window.onload = () => {
-            const nameInput = document.getElementById('nameInput');
-            const inkCheckboxes = document.querySelectorAll('input[name="counterInk"]');
-            const winSelect = document.getElementById('counterWinSelect');
-            const lossSelect = document.getElementById('counterLossSelect');
-            const drawSelect = document.getElementById('counterDrawSelect');
-            const counterDisplay = document.getElementById('counterDisplay');
-            const leftButton = document.querySelector('.half-button.left');
-            const rightButton = document.querySelector('.half-button.right');
+            const nameInputCounter = document.getElementById('nameInputCounter');
+            const nameInputDoor = document.getElementById('nameInputDoor');
 
-            let counterValue = 0;
+            const inkCheckboxesCounter = document.querySelectorAll('input[name="counterInk"]');
+            const inkCheckboxesDoor = document.querySelectorAll('input[name="doorInk"]');
 
-            // Function to save form data to Firebase
-            function saveFormData() {
-                const selectedInks = Array.from(inkCheckboxes)
+            const winSelectCounter = document.getElementById('counterWinSelect');
+            const lossSelectCounter = document.getElementById('counterLossSelect');
+            const drawSelectCounter = document.getElementById('counterDrawSelect');
+
+            const winSelectDoor = document.getElementById('doorWinSelect');
+            const lossSelectDoor = document.getElementById('doorLossSelect');
+            const drawSelectDoor = document.getElementById('doorDrawSelect');
+
+            const counterDisplayCounter = document.getElementById('counterDisplayCounter');
+            const leftButtonCounter = document.querySelector('.half-button.left.counter');
+            const rightButtonCounter = document.querySelector('.half-button.right.counter');
+
+            const counterDisplayDoor = document.getElementById('counterDisplayDoor');
+            const leftButtonDoor = document.querySelector('.half-button.left.door');
+            const rightButtonDoor = document.querySelector('.half-button.right.door');
+
+            let counterValueCounter = 0;
+            let counterValueDoor = 0;
+
+            // Function to save Counter form data to Firebase
+            function saveCounterFormData() {
+                const selectedInks = Array.from(inkCheckboxesCounter)
                     .filter(checkbox => checkbox.checked)
                     .map(checkbox => checkbox.value)
                     .slice(0, 2);  // Limit to two ink colors
 
                 const formData = {
-                    name: nameInput.value || 'Unknown Player',
+                    name: nameInputCounter.value || 'Unknown Player',
                     counter: {
                         color: selectedInks,
-                        wins: winSelect.value,
-                        losses: lossSelect.value,
-                        draws: drawSelect.value
+                        wins: winSelectCounter.value,
+                        losses: lossSelectCounter.value,
+                        draws: drawSelectCounter.value
                     },
-                    counterValue: counterValue
+                    counterValue: counterValueCounter
                 };
 
-                set(ref(database, 'formData'), formData);
+                set(ref(database, 'formData/counter'), formData);
             }
 
-            // Increment counter
-            rightButton.addEventListener('click', () => {
-                counterValue++;
-                counterDisplay.textContent = counterValue;
-                saveFormData();
+            // Function to save Door form data to Firebase
+            function saveDoorFormData() {
+                const selectedInks = Array.from(inkCheckboxesDoor)
+                    .filter(checkbox => checkbox.checked)
+                    .map(checkbox => checkbox.value)
+                    .slice(0, 2);  // Limit to two ink colors
+
+                const formData = {
+                    name: nameInputDoor.value || 'Unknown Player',
+                    door: {
+                        color: selectedInks,
+                        wins: winSelectDoor.value,
+                        losses: lossSelectDoor.value,
+                        draws: drawSelectDoor.value
+                    },
+                    counterValue: counterValueDoor
+                };
+
+                set(ref(database, 'formData/door'), formData);
+            }
+
+            // Increment and decrement counter for Counter section
+            rightButtonCounter.addEventListener('click', () => {
+                counterValueCounter++;
+                counterDisplayCounter.textContent = counterValueCounter;
+                saveCounterFormData();
             });
 
-            // Decrement counter
-            leftButton.addEventListener('click', () => {
-                if (counterValue > 0) {
-                    counterValue--;
-                    counterDisplay.textContent = counterValue;
-                    saveFormData();
+            leftButtonCounter.addEventListener('click', () => {
+                if (counterValueCounter > 0) {
+                    counterValueCounter--;
+                    counterDisplayCounter.textContent = counterValueCounter;
+                    saveCounterFormData();
                 }
             });
 
-            // Save form data when inputs change
-            nameInput.addEventListener('input', saveFormData);
-            winSelect.addEventListener('change', saveFormData);
-            lossSelect.addEventListener('change', saveFormData);
-            drawSelect.addEventListener('change', saveFormData);
-            inkCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', saveFormData);
+            // Increment and decrement counter for Door section
+            rightButtonDoor.addEventListener('click', () => {
+                counterValueDoor++;
+                counterDisplayDoor.textContent = counterValueDoor;
+                saveDoorFormData();
             });
 
-            // Load the initial counter value from Firebase
-            get(ref(database, 'formData/counterValue')).then(snapshot => {
+            leftButtonDoor.addEventListener('click', () => {
+                if (counterValueDoor > 0) {
+                    counterValueDoor--;
+                    counterDisplayDoor.textContent = counterValueDoor;
+                    saveDoorFormData();
+                }
+            });
+
+            // Save form data when inputs change for Counter
+            nameInputCounter.addEventListener('input', saveCounterFormData);
+            winSelectCounter.addEventListener('change', saveCounterFormData);
+            lossSelectCounter.addEventListener('change', saveCounterFormData);
+            drawSelectCounter.addEventListener('change', saveCounterFormData);
+            inkCheckboxesCounter.forEach(checkbox => {
+                checkbox.addEventListener('change', saveCounterFormData);
+            });
+
+            // Save form data when inputs change for Door
+            nameInputDoor.addEventListener('input', saveDoorFormData);
+            winSelectDoor.addEventListener('change', saveDoorFormData);
+            lossSelectDoor.addEventListener('change', saveDoorFormData);
+            drawSelectDoor.addEventListener('change', saveDoorFormData);
+            inkCheckboxesDoor.forEach(checkbox => {
+                checkbox.addEventListener('change', saveDoorFormData);
+            });
+
+            // Load the initial counter values from Firebase
+            get(ref(database, 'formData/counter/counterValue')).then(snapshot => {
                 if (snapshot.exists()) {
-                    counterValue = snapshot.val();
-                    counterDisplay.textContent = counterValue;
+                    counterValueCounter = snapshot.val();
+                    counterDisplayCounter.textContent = counterValueCounter;
+                }
+            });
+
+            get(ref(database, 'formData/door/counterValue')).then(snapshot => {
+                if (snapshot.exists()) {
+                    counterValueDoor = snapshot.val();
+                    counterDisplayDoor.textContent = counterValueDoor;
                 }
             });
         };
@@ -198,13 +264,14 @@
 </head>
 <body>
 
+    <!-- Counter Section -->
     <div class="container">
         <div class="section">
             <!-- Section label -->
             <h2>Counter</h2>
 
             <!-- Player name input -->
-            <input type="text" id="nameInput" placeholder="Enter Player Name" />
+            <input type="text" id="nameInputCounter" placeholder="Enter Player Name" />
 
             <!-- Ink selection -->
             <div class="color-options">
@@ -277,11 +344,98 @@
                 <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/d14ea819-bcbe-49dc-99b9-e81086106809/dhro31k-da79efd9-b141-4a51-a21f-a4c9776df7fb.png" alt="Lorcana Lore Image">
 
                 <!-- Left and right clickable areas for increment and decrement -->
-                <div class="half-button left">-</div>
-                <div class="half-button right">+</div>
+                <div class="half-button left counter">-</div>
+                <div class="half-button right counter">+</div>
 
                 <!-- Counter display -->
-                <span class="counter-value" id="counterDisplay">0</span>
+                <span class="counter-value" id="counterDisplayCounter">0</span>
+            </div>
+        </div>
+
+        <!-- Door Section -->
+        <div class="section">
+            <!-- Section label -->
+            <h2>Door</h2>
+
+            <!-- Player name input -->
+            <input type="text" id="nameInputDoor" placeholder="Enter Player Name" />
+
+            <!-- Ink selection -->
+            <div class="color-options">
+                <label>
+                    <input type="checkbox" name="doorInk" value="Amber">
+                    <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_amber.png" alt="Amber Ink">
+                </label>
+                <label>
+                    <input type="checkbox" name="doorInk" value="Amethyst">
+                    <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_amethyst.png" alt="Amethyst Ink">
+                </label>
+                <label>
+                    <input type="checkbox" name="doorInk" value="Emerald">
+                    <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_emerald.png" alt="Emerald Ink">
+                </label>
+                <label>
+                    <input type="checkbox" name="doorInk" value="Ruby">
+                    <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_ruby.png" alt="Ruby Ink">
+                </label>
+                <label>
+                    <input type="checkbox" name="doorInk" value="Sapphire">
+                    <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_sapphire.png" alt="Sapphire Ink">
+                </label>
+                <label>
+                    <input type="checkbox" name="doorInk" value="Steel">
+                    <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_steel.png" alt="Steel Ink">
+                </label>
+            </div>
+
+            <!-- Wins, Losses, Draws selection -->
+            <div class="dropdowns">
+                <div>
+                    <label for="doorWinSelect">Wins:</label>
+                    <select id="doorWinSelect">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="doorLossSelect">Losses:</label>
+                    <select id="doorLossSelect">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="doorDrawSelect">Draws:</label>
+                    <select id="doorDrawSelect">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Lore Counter -->
+            <div class="lore-counter">
+                <!-- The lore image -->
+                <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/d14ea819-bcbe-49dc-99b9-e81086106809/dhro31k-da79efd9-b141-4a51-a21f-a4c9776df7fb.png" alt="Lorcana Lore Image">
+
+                <!-- Left and right clickable areas for increment and decrement -->
+                <div class="half-button left door">-</div>
+                <div class="half-button right door">+</div>
+
+                <!-- Counter display -->
+                <span class="counter-value" id="counterDisplayDoor">0</span>
             </div>
         </div>
     </div>
