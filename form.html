@@ -10,29 +10,35 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
             height: 100vh;
             margin: 0;
         }
         .container {
             display: flex;
-            justify-content: space-between;
-            margin: 20px;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            flex-direction: column;
         }
         .section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             border: 1px solid #ccc;
             border-radius: 8px;
             padding: 20px;
-            width: 45%;
+            width: 100%;
+            max-width: 500px;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-            position: relative;
+            text-align: center;
         }
         .color-options {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Display checkboxes in 2 rows */
+            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
             justify-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
         .color-options img {
             width: 50px;
@@ -50,9 +56,8 @@
         .dropdowns {
             display: flex;
             justify-content: center;
-            align-items: center;
             gap: 10px;
-            margin-top: 10px;
+            margin-bottom: 20px;
         }
         select {
             padding: 5px;
@@ -63,13 +68,12 @@
         }
         input[type="text"] {
             width: 100%;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             padding: 8px;
             box-sizing: border-box;
         }
         .lore-counter {
             position: relative;
-            display: inline-block;
             text-align: center;
             margin-top: 20px;
         }
@@ -100,17 +104,17 @@
             z-index: 20;
         }
         .decrement {
-            left: 10%;
+            left: -50px;
         }
         .increment {
-            right: 10%;
+            right: -50px;
         }
     </style>
     <!-- Import Firebase Modular SDK -->
     <script type="module">
         // Import Firebase functions
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
-        import { getDatabase, ref, set, get, child, onValue } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js";
 
         // Firebase configuration
         const firebaseConfig = {
