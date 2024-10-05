@@ -182,7 +182,7 @@
 
             <div class="lore-counter">
                 <!-- Minus button on the left side -->
-                <button class="counter-button decrement" onclick="decrementCounter()">-</button>
+                <button class="counter-button decrement" id="decrementButton">-</button>
 
                 <!-- Lore image and counter display -->
                 <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/d14ea819-bcbe-49dc-99b9-e81086106809/dhro31k-da79efd9-b141-4a51-a21f-a4c9776df7fb.png/v1/fill/w_832,h_961/lorcana_tcg_symbols___basic_ink__vector_file__by_roshmalum_dhro31k-pre.png" 
@@ -190,7 +190,7 @@
                 <span class="counter-value" id="counterDisplay">0</span>
 
                 <!-- Plus button on the right side -->
-                <button class="counter-button increment" onclick="incrementCounter()">+</button>
+                <button class="counter-button increment" id="incrementButton">+</button>
             </div>
         </div>
     </div>
@@ -217,6 +217,8 @@
         window.onload = () => {
             const nameInput = document.getElementById('nameInput');
             const counterDisplay = document.getElementById('counterDisplay');
+            const incrementButton = document.getElementById('incrementButton');
+            const decrementButton = document.getElementById('decrementButton');
 
             // Function to update Firebase
             function updateDatabase() {
@@ -228,19 +230,21 @@
                 });
             }
 
-            window.incrementCounter = function() {
+            // Increment counter
+            incrementButton.addEventListener('click', function() {
                 counterValue++;
                 counterDisplay.textContent = counterValue;
                 updateDatabase();
-            }
+            });
 
-            window.decrementCounter = function() {
+            // Decrement counter
+            decrementButton.addEventListener('click', function() {
                 if (counterValue > 0) {
                     counterValue--;
                     counterDisplay.textContent = counterValue;
                     updateDatabase();
                 }
-            }
+            });
 
             // Initialize the counter value
             firebase.database().ref('formData/counterValue').once('value').then((snapshot) => {
