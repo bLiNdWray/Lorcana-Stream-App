@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Counter Display</title>
+    <title>Form Data Display</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -123,13 +123,13 @@
                     });
 
                     // Set wins, losses, draws in #:#:# format
-                    const wins = data.counter?.wins || 0;
-                    const losses = data.counter?.losses || 0;
-                    const draws = data.counter?.draws || 0;
+                    const wins = data.counter?.wins ?? '0';
+                    const losses = data.counter?.losses ?? '0';
+                    const draws = data.counter?.draws ?? '0';
                     statDisplay.textContent = `${wins}:${losses}:${draws}`;
 
                     // Set lore counter value
-                    counterDisplay.textContent = data.counterValue || 0;
+                    counterDisplay.textContent = data.counterValue ?? '0';
                 } else {
                     nameDisplay.textContent = 'Not Available';
                     inkDisplay.innerHTML = 'No Inks Selected';
@@ -166,7 +166,7 @@
 
         <!-- Lore Counter -->
         <div class="lore-counter">
-            <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/d14ea819-bcbe-49dc-99b9-e81086106809/dhro31k-da79efd9-b141-4a51-a21f-a4c9776df7fb.png/v1/fill/w_832,h_961/lorcana_tcg_symbols___basic_ink__vector_file__by_roshmalum_dhro31k-pre.png" 
+            <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/d14ea819-bcbe-49dc-99b9-e81086106809/dhro31k-da79efd9-b141-4a51-a21f-a4c9776df7fb.png" 
                  alt="Lorcana Lore Image">
             <span class="counter-value" id="counterDisplay">0</span>
         </div>
