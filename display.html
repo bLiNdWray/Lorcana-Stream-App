@@ -7,67 +7,74 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
             margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
         }
         .container {
             display: flex;
             justify-content: space-between;
-            max-width: 1200px;
-            margin: 0 auto;
+            width: 100%;
+            padding: 0 50px;
         }
         .section {
             border: 1px solid #ccc;
             border-radius: 8px;
             padding: 20px;
-            width: 45%;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-            background-color: white;
+            text-align: center;
+            width: 40%;
         }
         h2 {
             margin-bottom: 20px;
         }
-        .ink-options {
-            display: flex;
-            flex-wrap: wrap;
+        .color-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
+            justify-items: center;
+            margin-bottom: 20px;
         }
-        .ink-options img {
+        .color-options img {
             width: 50px;
             height: auto;
         }
-        .lore-counter {
+        .dropdowns {
             display: flex;
-            align-items: center;
+            justify-content: center;
             gap: 10px;
-        }
-        .lore-counter img {
-            width: 100px;
-            height: auto;
-        }
-        .round, .name {
-            font-size: 24px;
-            font-weight: bold;
             margin-bottom: 20px;
         }
-        .counter-value {
-            font-size: 36px;
-            font-weight: bold;
-        }
-        .wld {
+        .dropdowns div {
             display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 10px;
+            align-items: center;
+            gap: 5px;
         }
-        .wld-item {
-            font-size: 18px;
+        .lore-counter {
+            position: relative;
+            display: inline-block;
+            margin-top: 20px;
+            width: 300px;
+        }
+        .lore-counter img {
+            width: 100%;
+            height: auto;
+        }
+        .counter-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 96px;
             font-weight: bold;
-            padding: 5px;
+            color: white;
+            z-index: 10;
         }
     </style>
-    <!-- Firebase SDK -->
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js";
@@ -83,12 +90,10 @@
             measurementId: "G-Z74WTDETTK"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
 
         window.onload = () => {
-            const roundDisplay = document.getElementById('roundDisplay');
             const counterNameDisplay = document.getElementById('counterNameDisplay');
             const counterInksDisplay = document.getElementById('counterInksDisplay');
             const counterWLDDisplay = document.getElementById('counterWLDDisplay');
@@ -99,24 +104,15 @@
             const doorWLDDisplay = document.getElementById('doorWLDDisplay');
             const doorLoreDisplay = document.getElementById('doorLoreDisplay');
 
-            // Round Display
-            onValue(ref(database, 'formData/roundValue'), (snapshot) => {
-                if (snapshot.exists()) {
-                    roundDisplay.textContent = snapshot.val();
-                } else {
-                    console.error("No round data found.");
-                    roundDisplay.textContent = "No data available";
-                }
-            });
-
-            // Counter Section Display
+            // Fetch Counter Data
             onValue(ref(database, 'formData/counter'), (snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     counterNameDisplay.textContent = data.name || 'Unknown';
                     counterInksDisplay.innerHTML = ''; // Clear previous ink images
-                    if (Array.isArray(data.ink)) {
-                        data.ink.forEach(ink => {
+
+                    if (Array.isArray(data.counter.color)) {
+                        data.counter.color.forEach(ink => {
                             const img = document.createElement('img');
                             img.src = `https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_${ink.toLowerCase()}.png`;
                             counterInksDisplay.appendChild(img);
@@ -124,21 +120,23 @@
                     } else {
                         counterInksDisplay.textContent = "No inks selected";
                     }
-                    counterWLDDisplay.textContent = `${data.wins || 0}:${data.losses || 0}:${data.draws || 0}`;
+
+                    counterWLDDisplay.textContent = `${data.counter.wins || 0}:${data.counter.losses || 0}:${data.counter.draws || 0}`;
                     counterLoreDisplay.textContent = data.counterValue || 0;
                 } else {
-                    counterNameDisplay.textContent = "No data available";
+                    console.error("No counter data found.");
                 }
             });
 
-            // Door Section Display
+            // Fetch Door Data
             onValue(ref(database, 'formData/door'), (snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     doorNameDisplay.textContent = data.name || 'Unknown';
                     doorInksDisplay.innerHTML = ''; // Clear previous ink images
-                    if (Array.isArray(data.ink)) {
-                        data.ink.forEach(ink => {
+
+                    if (Array.isArray(data.door.color)) {
+                        data.door.color.forEach(ink => {
                             const img = document.createElement('img');
                             img.src = `https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_${ink.toLowerCase()}.png`;
                             doorInksDisplay.appendChild(img);
@@ -146,10 +144,11 @@
                     } else {
                         doorInksDisplay.textContent = "No inks selected";
                     }
-                    doorWLDDisplay.textContent = `${data.wins || 0}:${data.losses || 0}:${data.draws || 0}`;
+
+                    doorWLDDisplay.textContent = `${data.door.wins || 0}:${data.door.losses || 0}:${data.door.draws || 0}`;
                     doorLoreDisplay.textContent = data.counterValue || 0;
                 } else {
-                    doorNameDisplay.textContent = "No data available";
+                    console.error("No door data found.");
                 }
             });
         };
@@ -157,18 +156,12 @@
 </head>
 <body>
 
-    <!-- Round Display -->
-    <div class="round">
-        Round: <span id="roundDisplay">Loading...</span>
-    </div>
-
-    <!-- Counter and Door Sections Display -->
     <div class="container">
         <!-- Counter Section -->
         <div class="section">
             <h2>Counter</h2>
-            <p class="name"><strong>Name:</strong> <span id="counterNameDisplay">Loading...</span></p>
-            <div class="ink-options" id="counterInksDisplay">Loading...</div>
+            <p><strong>Name:</strong> <span id="counterNameDisplay">Loading...</span></p>
+            <div class="color-options" id="counterInksDisplay">Loading...</div>
             <p><strong>W:L:D:</strong> <span id="counterWLDDisplay">Loading...</span></p>
             <div class="lore-counter">
                 <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/d14ea819-bcbe-49dc-99b9-e81086106809/dhro31k-da79efd9-b141-4a51-a21f-a4c9776df7fb.png" alt="Lorcana Lore Image">
@@ -179,8 +172,8 @@
         <!-- Door Section -->
         <div class="section">
             <h2>Door</h2>
-            <p class="name"><strong>Name:</strong> <span id="doorNameDisplay">Loading...</span></p>
-            <div class="ink-options" id="doorInksDisplay">Loading...</div>
+            <p><strong>Name:</strong> <span id="doorNameDisplay">Loading...</span></p>
+            <div class="color-options" id="doorInksDisplay">Loading...</div>
             <p><strong>W:L:D:</strong> <span id="doorWLDDisplay">Loading...</span></p>
             <div class="lore-counter">
                 <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/d14ea819-bcbe-49dc-99b9-e81086106809/dhro31k-da79efd9-b141-4a51-a21f-a4c9776df7fb.png" alt="Lorcana Lore Image">
