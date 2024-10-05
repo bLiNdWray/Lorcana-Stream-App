@@ -32,10 +32,19 @@
             flex-wrap: wrap;
             justify-content: center;
         }
-        .ink-image {
+        .color-options img {
             width: 50px;
             height: auto;
             margin: 5px;
+        }
+        .color-options label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px;
+        }
+        input[type="checkbox"] {
+            margin-top: 10px;
         }
         button {
             margin: 0 10px;
@@ -93,19 +102,37 @@
 
     <div class="container">
         <div class="section">
-            <!-- Moved the name input field inside the counter section -->
+            <!-- Name input field within the counter section -->
             <input type="text" id="nameInput" placeholder="Enter Name" />
 
             <h2>Counter</h2>
 
             <div class="color-options">
-                <!-- Only displaying the ink images without labels -->
-                <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_amber.png" class="ink-image" alt="Amber Ink">
-                <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_amethyst.png" class="ink-image" alt="Amethyst Ink">
-                <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_emerald.png" class="ink-image" alt="Emerald Ink">
-                <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_ruby.png" class="ink-image" alt="Ruby Ink">
-                <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_sapphire.png" class="ink-image" alt="Sapphire Ink">
-                <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_steel.png" class="ink-image" alt="Steel Ink">
+                <!-- Ink images with checkboxes -->
+                <label>
+                    <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_amber.png" alt="Amber Ink">
+                    <input type="checkbox" name="counterInk" value="Amber">
+                </label>
+                <label>
+                    <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_amethyst.png" alt="Amethyst Ink">
+                    <input type="checkbox" name="counterInk" value="Amethyst">
+                </label>
+                <label>
+                    <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_emerald.png" alt="Emerald Ink">
+                    <input type="checkbox" name="counterInk" value="Emerald">
+                </label>
+                <label>
+                    <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_ruby.png" alt="Ruby Ink">
+                    <input type="checkbox" name="counterInk" value="Ruby">
+                </label>
+                <label>
+                    <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_sapphire.png" alt="Sapphire Ink">
+                    <input type="checkbox" name="counterInk" value="Sapphire">
+                </label>
+                <label>
+                    <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_steel.png" alt="Steel Ink">
+                    <input type="checkbox" name="counterInk" value="Steel">
+                </label>
             </div>
 
             <div class="lore-counter">
