@@ -50,10 +50,6 @@
             const counterWinSelect = document.getElementById('counterWinSelect');
             const counterLossSelect = document.getElementById('counterLossSelect');
             const counterDrawSelect = document.getElementById('counterDrawSelect');
-            const doorNameInput = document.getElementById('doorNameInput');
-            const doorWinSelect = document.getElementById('doorWinSelect');
-            const doorLossSelect = document.getElementById('doorLossSelect');
-            const doorDrawSelect = document.getElementById('doorDrawSelect');
             const counterDisplay = document.getElementById('counterDisplay');
 
             // Function to update Firebase
@@ -63,11 +59,6 @@
                 const counterWins = counterWinSelect.value;
                 const counterLosses = counterLossSelect.value;
                 const counterDraws = counterDrawSelect.value;
-                const doorName = doorNameInput.value;
-                const doorColor = Array.from(document.querySelectorAll('input[name="doorColor"]:checked')).map(el => el.value);
-                const doorWins = doorWinSelect.value;
-                const doorLosses = doorLossSelect.value;
-                const doorDraws = doorDrawSelect.value;
 
                 set(ref(database, 'formData'), {
                     counter: {
@@ -76,13 +67,6 @@
                         wins: counterWins,
                         losses: counterLosses,
                         draws: counterDraws
-                    },
-                    door: {
-                        name: doorName,
-                        color: doorColor,
-                        wins: doorWins,
-                        losses: doorLosses,
-                        draws: doorDraws
                     },
                     counterValue: counterValue
                 });
@@ -107,10 +91,6 @@
             counterWinSelect.onchange = updateDatabase;
             counterLossSelect.onchange = updateDatabase;
             counterDrawSelect.onchange = updateDatabase;
-            doorNameInput.oninput = updateDatabase;
-            doorWinSelect.onchange = updateDatabase;
-            doorLossSelect.onchange = updateDatabase;
-            doorDrawSelect.onchange = updateDatabase;
 
             // Initialize the counter value
             const dbRef = ref(database);
@@ -182,50 +162,6 @@
                     <button onclick="incrementCounter()">+</button>
                 </div>
             </div>
-        </div>
-
-        <div class="section">
-            <h2>Door</h2>
-            <label for="doorNameInput">Name:</label>
-            <input type="text" id="doorNameInput" placeholder="Enter Door Name" />
-
-            <p><strong>Color Combination:</strong></p>
-            <label><input type="checkbox" name="doorColor" value="red"> Red</label><br>
-            <label><input type="checkbox" name="doorColor" value="blue"> Blue</label><br>
-            <label><input type="checkbox" name="doorColor" value="green"> Green</label><br>
-            <label><input type="checkbox" name="doorColor" value="yellow"> Yellow</label><br>
-            <label><input type="checkbox" name="doorColor" value="purple"> Purple</label><br>
-            <label><input type="checkbox" name="doorColor" value="steel"> Steel</label><br>
-
-            <label for="doorWinSelect">Wins:</label>
-            <select id="doorWinSelect">
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-
-            <label for="doorLossSelect">Losses:</label>
-            <select id="doorLossSelect">
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-
-            <label for="doorDrawSelect">Draws:</label>
-            <select id="doorDrawSelect">
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
         </div>
     </div>
 </body>
