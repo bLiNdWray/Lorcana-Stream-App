@@ -21,6 +21,9 @@
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
             background-color: transparent;
         }
+        h2 {
+            text-align: center;
+        }
         .stat {
             margin: 10px 0;
             font-size: 18px;
@@ -90,18 +93,18 @@
                     // Set player name
                     nameDisplay.textContent = data.name || 'No Name';
 
-                    // Set ink colors
-                    const selectedColors = data.selectedColors || [];
+                    // Set ink colors (from checkbox selection)
+                    const selectedColors = data.counter.color || [];
                     if (selectedColors.length > 0) {
                         inkDisplay.textContent = selectedColors.join(' + ');
                     } else {
                         inkDisplay.textContent = 'No Inks Selected';
                     }
 
-                    // Set wins, losses, draws in w:l:d format
-                    const wins = data.wins || 0;
-                    const losses = data.losses || 0;
-                    const draws = data.draws || 0;
+                    // Set wins, losses, draws from dropdown
+                    const wins = data.counter.wins || 0;
+                    const losses = data.counter.losses || 0;
+                    const draws = data.counter.draws || 0;
                     statDisplay.textContent = `${wins}:${losses}:${draws}`;
 
                     // Set lore counter value
@@ -114,12 +117,15 @@
 <body>
 
     <div class="display-container">
+        <!-- Section Label -->
+        <h2>Counter</h2>
+
         <!-- Player Name -->
         <div class="stat">
             Name: <span id="nameDisplay">Loading...</span>
         </div>
 
-        <!-- Ink Colors -->
+        <!-- Ink Colors (checkmarked) -->
         <div class="stat">
             Ink: <span id="inkDisplay">Loading...</span>
         </div>
