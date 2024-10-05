@@ -108,6 +108,7 @@
             onValue(ref(database, 'formData/counter'), (snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
+                    console.log("Counter data:", data); // Log the entire counter data
                     counterNameDisplay.textContent = data.name || 'Unknown';
                     counterInksDisplay.innerHTML = ''; // Clear previous
 
@@ -145,6 +146,7 @@
             onValue(ref(database, 'formData/door'), (snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
+                    console.log("Door data:", data); // Log the entire door data
                     doorNameDisplay.textContent = data.name || 'Unknown';
                     doorInksDisplay.innerHTML = ''; // Clear previous
 
