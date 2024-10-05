@@ -38,14 +38,6 @@
             height: auto;
             margin: 5px;
         }
-        .color-options label {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        input[type="checkbox"] {
-            margin-top: 10px;
-        }
         .dropdowns {
             display: flex;
             justify-content: center;
@@ -63,17 +55,40 @@
         }
         .lore-counter {
             position: relative;
-            display: inline-block;
             text-align: center;
             margin-top: 20px;
         }
         .lore-counter img {
             width: 300px;
             height: auto;
+            cursor: pointer;
         }
         .counter-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             font-size: 24px;
             font-weight: bold;
+            color: white;
+            z-index: 10;
+        }
+        .half-button {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 50%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 20;
+        }
+        .half-button.left {
+            left: 0;
+            background: rgba(255, 0, 0, 0.2); /* Slight red tint to visualize the button */
+        }
+        .half-button.right {
+            right: 0;
+            background: rgba(0, 255, 0, 0.2); /* Slight green tint to visualize the button */
         }
     </style>
     <!-- Firebase SDK -->
@@ -103,8 +118,8 @@
             const lossSelect = document.getElementById('counterLossSelect');
             const drawSelect = document.getElementById('counterDrawSelect');
             const counterDisplay = document.getElementById('counterDisplay');
-            const incrementButton = document.getElementById('incrementButton');
-            const decrementButton = document.getElementById('decrementButton');
+            const leftButton = document.querySelector('.half-button.left');
+            const rightButton = document.querySelector('.half-button.right');
 
             let counterValue = 0;
 
@@ -130,14 +145,14 @@
             }
 
             // Increment counter
-            incrementButton.addEventListener('click', () => {
+            rightButton.addEventListener('click', () => {
                 counterValue++;
                 counterDisplay.textContent = counterValue;
                 saveFormData();
             });
 
             // Decrement counter
-            decrementButton.addEventListener('click', () => {
+            leftButton.addEventListener('click', () => {
                 if (counterValue > 0) {
                     counterValue--;
                     counterDisplay.textContent = counterValue;
@@ -236,9 +251,15 @@
 
             <!-- Lore Counter -->
             <div class="lore-counter">
-                <button id="decrementButton">-</button>
-                <span id="counterDisplay">0</span>
-                <button id="incrementButton">+</button>
+                <!-- The lore image -->
+                <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/d14ea819-bcbe-49dc-99b9-e81086106809/dhro31k-da79efd9-b141-4a51-a21f-a4c9776df7fb.png" alt="Lorcana Lore Image">
+
+                <!-- Left and right clickable areas for increment and decrement -->
+                <div class="half-button left"></div>
+                <div class="half-button right"></div>
+
+                <!-- Counter display -->
+                <span class="counter-value" id="counterDisplay">0</span>
             </div>
         </div>
     </div>
