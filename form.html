@@ -68,6 +68,25 @@
             font-weight: bold;
             z-index: 10;
         }
+        /* Style for the increment and decrement buttons */
+        .counter-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            border: none;
+            color: white;
+            font-size: 30px;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 20;
+        }
+        .decrement {
+            left: -50px; /* Position on the left of the image */
+        }
+        .increment {
+            right: -50px; /* Position on the right of the image */
+        }
     </style>
     <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js"></script>
@@ -104,40 +123,17 @@
                 <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_steel.png" class="ink-image" alt="Steel Ink">
             </div>
 
-            <label for="counterWinSelect">Wins:</label>
-            <select id="counterWinSelect">
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-
-            <label for="counterLossSelect">Losses:</label>
-            <select id="counterLossSelect">
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-
-            <label for="counterDrawSelect">Draws:</label>
-            <select id="counterDrawSelect">
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-
             <div class="lore-counter">
+                <!-- Decrease button -->
+                <button class="counter-button decrement" onclick="decrementCounter()">-</button>
+
+                <!-- Image and counter display -->
                 <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/d14ea819-bcbe-49dc-99b9-e81086106809/dhro31k-da79efd9-b141-4a51-a21f-a4c9776df7fb.png/v1/fill/w_832,h_961/lorcana_tcg_symbols___basic_ink__vector_file__by_roshmalum_dhro31k-pre.png" 
                      alt="Lorcana Lore Image">
                 <span class="counter-value" id="counterDisplay">0</span>
+
+                <!-- Increase button -->
+                <button class="counter-button increment" onclick="incrementCounter()">+</button>
             </div>
 
             <input type="text" id="nameInput" placeholder="Enter Name" />
@@ -165,24 +161,15 @@
 
         window.onload = () => {
             const nameInput = document.getElementById('nameInput');
-            const counterWinSelect = document.getElementById('counterWinSelect');
-            const counterLossSelect = document.getElementById('counterLossSelect');
-            const counterDrawSelect = document.getElementById('counterDrawSelect');
             const counterDisplay = document.getElementById('counterDisplay');
 
             // Function to update Firebase
             function updateDatabase() {
                 const playerName = nameInput.value;
-                const counterWins = counterWinSelect.value;
-                const counterLosses = counterLossSelect.value;
-                const counterDraws = counterDrawSelect.value;
 
                 firebase.database().ref('formData').set({
                     counterValue: counterValue,
-                    name: playerName,
-                    wins: counterWins,
-                    losses: counterLosses,
-                    draws: counterDraws
+                    name: playerName
                 });
             }
 
@@ -210,9 +197,6 @@
 
             // Event listeners for inputs
             nameInput.oninput = updateDatabase;
-            counterWinSelect.onchange = updateDatabase;
-            counterLossSelect.onchange = updateDatabase;
-            counterDrawSelect.onchange = updateDatabase;
         }
     </script>
 </body>
