@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lorcana TCG Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
+        .section {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            width: 45%;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            margin: 0 10px;
+            padding: 5px;
+        }
+    </style>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
+        import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBM_1NtDkH7781rsyED0NH8ue6oXMC9rUA",
+            authDomain: "webapp-fe39a.firebaseapp.com",
+            databaseURL: "https://webapp-fe39a-default-rtdb.firebaseio.com",
+            projectId: "webapp-fe39a",
+            storageBucket: "webapp-fe39a.appspot.com",
+            messagingSenderId: "341550833394",
+            appId: "1:341550833394:web:f40bf7d689a6573e3a7a6b",
+            measurementId: "G-Z74WTDETTK"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        let counterValue = 0;
+
+        window.onload = () => {
+            const counterNameInput = document.getElementById('counterNameInput');
+            const counterWinSelect = document.getElementById('counterWinSelect');
+            const counterLossSelect = document.getElementById('counterLossSelect');
+            const counterDrawSelect = document.getElementById('counterDrawSelect');
+            const doorNameInput = document.getElementById('doorNameInput');
+            const doorWinSelect = document.getElementById('doorWinSelect');
+            const doorLossSelect = document.getElementById('doorLossSelect');
+            const doorDrawSelect = document.getElementById('doorDrawSelect');
+            const counterDisplay = document.getElementById('counterDisplay');
+
+            // Function to update Firebase
+            function updateDatabase() {
+                const counterName = counterNameInput.value;
+                const counterColor = Array.from(document.querySelectorAll('input[name="counterColor"]:checked')).map(el => el.value);
+                const counterWins = counterWinSelect.value;
+                const counterLosses = counterLossSelect.value;
+                const counterDraws = counterDrawSelect.value;
+                const doorName = doorNameInput.value;
+                const doorColor = Array.from(document.querySelectorAll('input[name="doorColor"]:checked')).map(el => el.value);
+                const doorWins = doorWinSelect.value;
+                const doorLosses = doorLossSelect.value;
+                const doorDraws = doorDrawSelect.value;
+
+                set(ref(database, 'formData'), {
+                    counter: {
+                        name: counterName,
+                        color: counterColor,
+                        wins: counterWins,
+                        losses: counterLosses,
+                        draws: counterDraws
+                    },
+                    door: {
+                        name: doorName,
+                        color: doorColor,
+                        wins: doorWins,
+                        losses: doorLosses,
+                        draws: doorDraws
+                    },
+                    counterValue: counterValue
+                });
+            }
+
+            window.incrementCounter = function() {
+                counterValue++;
+                counterDisplay.textContent = counterValue;
+                updateDatabase();
+            }
+
+            window.decrementCounter = function() {
+                if (counterValue > 0) {
+                    counterValue--;
+                    counterDisplay.textContent = counterValue;
+                    updateDatabase();
+                }
+            }
+
+            // Event listeners for inputs
+            counterNameInput.oninput = updateDatabase;
+            counterWinSelect.onchange = updateDatabase;
+            counterLossSelect.onchange = updateDatabase;
+            counterDrawSelect.onchange = updateDatabase;
+            doorNameInput.oninput = updateDatabase;
+            doorWinSelect.onchange = updateDatabase;
+            doorLossSelect.onchange = updateDatabase;
+            doorDrawSelect.onchange = updateDatabase;
+
+            // Initialize the counter value
+            const dbRef = ref(database);
+            get(child(dbRef, `formData/counterValue`)).then((snapshot) => {
+                if (snapshot.exists()) {
+                    counterValue = snapshot.val();
+                    counterDisplay.textContent = counterValue;
+                } else {
+                    counterDisplay.textContent = 0;
+                }
+            }).catch((error) => {
+                console.error("Error fetching counter data:", error);
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Lorcana TCG Form</h1>
+
+    <div class="container">
+        <div class="section">
+            <h2>Counter</h2>
+            <label for="counterNameInput">Name:</label>
+            <input type="text" id="counterNameInput" placeholder="Enter Counter Name" />
+
+            <p><strong>Color Combination:</strong></p>
+            <label><input type="checkbox" name="counterColor" value="red"> Red</label><br>
+            <label><input type="checkbox" name="counterColor" value="blue"> Blue</label><br>
+            <label><input type="checkbox" name="counterColor" value="green"> Green</label><br>
+            <label><input type="checkbox" name="counterColor" value="yellow"> Yellow</label><br>
+            <label><input type="checkbox" name="counterColor" value="purple"> Purple</label><br>
+            <label><input type="checkbox" name="counterColor" value="steel"> Steel</label><br>
+
+            <label for="counterWinSelect">Wins:</label>
+            <select id="counterWinSelect">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+
+            <label for="counterLossSelect">Losses:</label>
+            <select id="counterLossSelect">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+
+            <label for="counterDrawSelect">Draws:</label>
+            <select id="counterDrawSelect">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+
+            <div>
+                <h4>Counter Value</h4>
+                <div>
+                    <button onclick="decrementCounter()">-</button>
+                    <span id="counterDisplay">0</span>
+                    <button onclick="incrementCounter()">+</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Door</h2>
+            <label for="doorNameInput">Name:</label>
+            <input type="text" id="doorNameInput" placeholder="Enter Door Name" />
+
+            <p><strong>Color Combination:</strong></p>
+            <label><input type="checkbox" name="doorColor" value="red"> Red</label><br>
+            <label><input type="checkbox" name="doorColor" value="blue"> Blue</label><br>
+            <label><input type="checkbox" name="doorColor" value="green"> Green</label><br>
+            <label><input type="checkbox" name="doorColor" value="yellow"> Yellow</label><br>
+            <label><input type="checkbox" name="doorColor" value="purple"> Purple</label><br>
+            <label><input type="checkbox" name="doorColor" value="steel"> Steel</label><br>
+
+            <label for="doorWinSelect">Wins:</label>
+            <select id="doorWinSelect">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+
+            <label for="doorLossSelect">Losses:</label>
+            <select id="doorLossSelect">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+
+            <label for="doorDrawSelect">Draws:</label>
+            <select id="doorDrawSelect">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+    </div>
+</body>
+</html>
