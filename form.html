@@ -28,9 +28,11 @@
             position: relative;
         }
         .color-options {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Display checkboxes in 2 rows */
+            gap: 10px;
+            justify-items: center;
+            margin-bottom: 10px;
         }
         .color-options img {
             width: 50px;
@@ -41,10 +43,19 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 10px;
         }
         input[type="checkbox"] {
             margin-top: 10px;
+        }
+        .dropdowns {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        select {
+            padding: 5px;
         }
         button {
             margin: 0 10px;
@@ -102,13 +113,14 @@
 
     <div class="container">
         <div class="section">
+            <!-- "Counter" label at the top of the section -->
+            <h2>Counter</h2>
+
             <!-- Name input field within the counter section -->
             <input type="text" id="nameInput" placeholder="Enter Name" />
 
-            <h2>Counter</h2>
-
             <div class="color-options">
-                <!-- Ink images with checkboxes -->
+                <!-- Ink images with checkboxes (arranged in 2 lines) -->
                 <label>
                     <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_amber.png" alt="Amber Ink">
                     <input type="checkbox" name="counterInk" value="Amber">
@@ -133,6 +145,39 @@
                     <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_steel.png" alt="Steel Ink">
                     <input type="checkbox" name="counterInk" value="Steel">
                 </label>
+            </div>
+
+            <!-- Win, Loss, Draw dropdowns on a single line -->
+            <div class="dropdowns">
+                <label for="counterWinSelect">Wins:</label>
+                <select id="counterWinSelect">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+
+                <label for="counterLossSelect">Losses:</label>
+                <select id="counterLossSelect">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+
+                <label for="counterDrawSelect">Draws:</label>
+                <select id="counterDrawSelect">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
             </div>
 
             <div class="lore-counter">
