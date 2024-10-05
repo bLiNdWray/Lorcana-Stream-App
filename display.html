@@ -3,7 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Display Lorcana TCG Data</title>
+    <title>Lorcana TCG Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .section {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            margin: 0;
+        }
+    </style>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js";
@@ -23,55 +39,53 @@
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
 
-        // References for displaying data
-        const nameDisplay = document.getElementById('nameDisplay');
-        const colorDisplay = document.getElementById('colorDisplay');
-        const counterDisplay = document.getElementById('counterDisplay');
-        const colorImageDisplay = document.getElementById('colorImageDisplay');
+        // Function to display data from Firebase
+        function displayData() {
+            const dataRef = ref(database, 'formData');
+            onValue(dataRef, (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    // Display Counter data
+                    document.getElementById('counterName').textContent = data.counter.name || 'N/A';
+                    document.getElementById('counterColor').textContent = data.counter.color || 'N/A';
+                    document.getElementById('counterWins').textContent = data.counter.wins || '0';
+                    document.getElementById('counterLosses').textContent = data.counter.losses || '0';
+                    document.getElementById('counterDraws').textContent = data.counter.draws || '0';
+                    document.getElementById('counterValue').textContent = data.counterValue || '0';
 
-        const colorImages = {
-            red: 'https://example.com/red-image.jpg',
-            blue: 'https://example.com/blue-image.jpg',
-            green: 'https://example.com/green-image.jpg',
-            yellow: 'https://example.com/yellow-image.jpg',
-            purple: 'https://example.com/purple-image.jpg',
-            'red-blue': 'https://example.com/red-blue-image.jpg'
-            // Add more image URLs as needed
-        };
-
-        // Fetching data from Firebase
-        const formDataRef = ref(database, 'formData');
-        onValue(formDataRef, (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                nameDisplay.textContent = `Name: ${data.name}`;
-                colorDisplay.textContent = `Selected Color: ${data.color}`;
-                counterDisplay.textContent = `Counter Value: ${data.counter}`;
-
-                // Set the corresponding color image
-                const selectedColor = data.color;
-                if (selectedColor && colorImages[selectedColor]) {
-                    colorImageDisplay.src = colorImages[selectedColor];
-                    colorImageDisplay.style.display = 'block';
-                } else {
-                    colorImageDisplay.style.display = 'none';
+                    // Display Door data
+                    document.getElementById('doorName').textContent = data.door.name || 'N/A';
+                    document.getElementById('doorColor').textContent = data.door.color || 'N/A';
+                    document.getElementById('doorWins').textContent = data.door.wins || '0';
+                    document.getElementById('doorLosses').textContent = data.door.losses || '0';
+                    document.getElementById('doorDraws').textContent = data.door.draws || '0';
                 }
-            } else {
-                nameDisplay.textContent = 'No data available.';
-                colorDisplay.textContent = '';
-                counterDisplay.textContent = '';
-                colorImageDisplay.style.display = 'none';
-            }
-        });
+            });
+        }
+
+        window.onload = displayData; // Call displayData on page load
     </script>
 </head>
 <body>
-    <h1>Lorcana TCG Data Display</h1>
-    <p id="nameDisplay">Name: </p>
-    <p id="colorDisplay">Selected Color: </p>
-    <p id="counterDisplay">Counter Value: </p>
-    <div>
-        <img id="colorImageDisplay" src="" alt="" style="display:none; width:100px; height:auto;"/>
+    <h1>Lorcana TCG Display</h1>
+
+    <div class="section">
+        <h2>Counter</h2>
+        <p><strong>Name:</strong> <span id="counterName">N/A</span></p>
+        <p><strong>Color Combination:</strong> <span id="counterColor">N/A</span></p>
+        <p><strong>Wins:</strong> <span id="counterWins">0</span></p>
+        <p><strong>Losses:</strong> <span id="counterLosses">0</span></p>
+        <p><strong>Draws:</strong> <span id="counterDraws">0</span></p>
+        <p><strong>Current Value:</strong> <span id="counterValue">0</span></p>
+    </div>
+
+    <div class="section">
+        <h2>Door</h2>
+        <p><strong>Name:</strong> <span id="doorName">N/A</span></p>
+        <p><strong>Color Combination:</strong> <span id="doorColor">N/A</span></p>
+        <p><strong>Wins:</strong> <span id="doorWins">0</span></p>
+        <p><strong>Losses:</strong> <span id="doorLosses">0</span></p>
+        <p><strong>Draws:</strong> <span id="doorDraws">0</span></p>
     </div>
 </body>
 </html>
