@@ -45,6 +45,11 @@
             gap: 10px;
             margin-bottom: 20px;
         }
+        .dropdowns div {
+            display: flex;
+            align-items: center; /* Center the labels and dropdowns vertically */
+            gap: 5px;
+        }
         select {
             padding: 5px;
         }
@@ -93,10 +98,14 @@
         .half-button.left {
             left: 0;
             background-color: transparent; /* Transparent button */
+            justify-content: flex-start; /* Ensure the minus button is centered */
+            padding-left: 20px;
         }
         .half-button.right {
             right: 0;
             background-color: transparent; /* Transparent button */
+            justify-content: flex-end; /* Ensure the plus button is centered */
+            padding-right: 20px;
         }
     </style>
     <!-- Firebase SDK -->
@@ -227,35 +236,39 @@
 
             <!-- Wins, Losses, Draws selection -->
             <div class="dropdowns">
-                <label for="counterWinSelect">Wins:</label>
-                <select id="counterWinSelect">
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-
-                <label for="counterLossSelect">Losses:</label>
-                <select id="counterLossSelect">
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-
-                <label for="counterDrawSelect">Draws:</label>
-                <select id="counterDrawSelect">
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
+                <div>
+                    <label for="counterWinSelect">Wins:</label>
+                    <select id="counterWinSelect">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="counterLossSelect">Losses:</label>
+                    <select id="counterLossSelect">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="counterDrawSelect">Draws:</label>
+                    <select id="counterDrawSelect">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
             </div>
 
             <!-- Lore Counter -->
