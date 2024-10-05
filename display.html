@@ -39,21 +39,22 @@
 </head>
 <body>
     <div class="lore-counter">
-        <img src="/path/to/your/uploaded/image.png" alt="Lorcana Lore Image" id="loreImage">
+        <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/d14ea819-bcbe-49dc-99b9-e81086106809/dhro31k-da79efd9-b141-4a51-a21f-a4c9776df7fb.png/v1/fill/w_832,h_961/lorcana_tcg_symbols___basic_ink__vector_file__by_roshmalum_dhro31k-pre.png" 
+             alt="Lorcana Lore Image" id="loreImage">
         <span class="counter-value" id="counterDisplay">0</span>
     </div>
 
     <script>
         // Firebase configuration
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            databaseURL: "YOUR_DATABASE_URL",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID",
-            measurementId: "YOUR_MEASUREMENT_ID"
+            apiKey: "AIzaSyBM_1NtDkH7781rsyED0NH8ue6oXMC9rUA",
+            authDomain: "webapp-fe39a.firebaseapp.com",
+            databaseURL: "https://webapp-fe39a-default-rtdb.firebaseio.com",
+            projectId: "webapp-fe39a",
+            storageBucket: "webapp-fe39a.appspot.com",
+            messagingSenderId: "341550833394",
+            appId: "1:341550833394:web:f40bf7d689a6573e3a7a6b",
+            measurementId: "G-Z74WTDETTK"
         };
 
         // Initialize Firebase
@@ -61,7 +62,7 @@
         const database = firebase.database();
 
         // Reference to the data in Firebase
-        const counterRef = firebase.database().ref('formData/counterValue');
+        const counterRef = database.ref('formData/counterValue');
 
         // Listen for changes in the counter value
         counterRef.on('value', (snapshot) => {
