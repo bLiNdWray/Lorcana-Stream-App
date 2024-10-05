@@ -3,47 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Data Display</title>
+    <title>Lorcana TCG Form</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             height: 100vh;
             margin: 0;
-            background-color: transparent;
         }
-        .display-container {
-            text-align: left;
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
+        .section {
+            border: 1px solid #ccc;
+            border-radius: 8px;
             padding: 20px;
-            width: 400px;
-            background-color: transparent;
+            width: 45%;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
         }
-        h2 {
-            text-align: left;
+        .color-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            justify-items: center;
             margin-bottom: 20px;
         }
-        .stat {
-            margin: 10px 0;
-            font-size: 18px;
-            font-weight: bold;
+        .color-options img {
+            width: 50px;
+            height: auto;
+            margin: 5px;
         }
-        .stat span {
-            font-weight: normal;
-        }
-        .ink-display {
+        .color-options label {
             display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input[type="checkbox"] {
+            margin-top: 10px;
+        }
+        .dropdowns {
+            display: flex;
+            justify-content: center;
             gap: 10px;
             margin-bottom: 20px;
         }
-        .ink-display img {
-            width: 50px;
-            height: auto;
+        select {
+            padding: 5px;
+        }
+        input[type="text"] {
+            width: 100%;
+            margin-bottom: 20px;
+            padding: 8px;
+            box-sizing: border-box;
         }
         .lore-counter {
             position: relative;
-            text-align: left;
+            display: inline-block;
+            text-align: center;
             margin-top: 20px;
         }
         .lore-counter img {
@@ -51,23 +72,15 @@
             height: auto;
         }
         .counter-value {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             font-size: 24px;
-            color: white;
             font-weight: bold;
-            z-index: 10;
         }
     </style>
-    <!-- Import Firebase Modular SDK -->
+    <!-- Firebase SDK -->
     <script type="module">
-        // Import Firebase functions
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
-        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js";
+        import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js";
 
-        // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBM_1NtDkH7781rsyED0NH8ue6oXMC9rUA",
             authDomain: "webapp-fe39a.firebaseapp.com",
@@ -79,62 +92,73 @@
             measurementId: "G-Z74WTDETTK"
         };
 
-        // Initialize Firebase app
+        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
 
         window.onload = () => {
-            const nameDisplay = document.getElementById('nameDisplay');
-            const inkDisplay = document.getElementById('inkDisplay');
-            const statDisplay = document.getElementById('statDisplay');
+            const nameInput = document.getElementById('nameInput');
+            const inkCheckboxes = document.querySelectorAll('input[name="counterInk"]');
+            const winSelect = document.getElementById('counterWinSelect');
+            const lossSelect = document.getElementById('counterLossSelect');
+            const drawSelect = document.getElementById('counterDrawSelect');
             const counterDisplay = document.getElementById('counterDisplay');
+            const incrementButton = document.getElementById('incrementButton');
+            const decrementButton = document.getElementById('decrementButton');
 
-            // Reference to the form data in Firebase
-            const formDataRef = ref(database, 'formData');
+            let counterValue = 0;
 
-            // Listen for changes in the form data
-            onValue(formDataRef, (snapshot) => {
+            // Function to save form data to Firebase
+            function saveFormData() {
+                const selectedInks = Array.from(inkCheckboxes)
+                    .filter(checkbox => checkbox.checked)
+                    .map(checkbox => checkbox.value)
+                    .slice(0, 2);  // Limit to two ink colors
+
+                const formData = {
+                    name: nameInput.value || 'Unknown Player',
+                    counter: {
+                        color: selectedInks,
+                        wins: winSelect.value,
+                        losses: lossSelect.value,
+                        draws: drawSelect.value
+                    },
+                    counterValue: counterValue
+                };
+
+                set(ref(database, 'formData'), formData);
+            }
+
+            // Increment counter
+            incrementButton.addEventListener('click', () => {
+                counterValue++;
+                counterDisplay.textContent = counterValue;
+                saveFormData();
+            });
+
+            // Decrement counter
+            decrementButton.addEventListener('click', () => {
+                if (counterValue > 0) {
+                    counterValue--;
+                    counterDisplay.textContent = counterValue;
+                    saveFormData();
+                }
+            });
+
+            // Save form data when inputs change
+            nameInput.addEventListener('input', saveFormData);
+            winSelect.addEventListener('change', saveFormData);
+            lossSelect.addEventListener('change', saveFormData);
+            drawSelect.addEventListener('change', saveFormData);
+            inkCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', saveFormData);
+            });
+
+            // Load the initial counter value from Firebase
+            get(ref(database, 'formData/counterValue')).then(snapshot => {
                 if (snapshot.exists()) {
-                    const data = snapshot.val();
-
-                    // Set player name (handle missing data)
-                    nameDisplay.textContent = data.name || 'Not Available';
-
-                    // Set ink images (based on checked inks)
-                    const selectedColors = data.counter?.color || [];
-                    const inkImages = {
-                        Amber: 'https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_amber.png',
-                        Amethyst: 'https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_amethyst.png',
-                        Emerald: 'https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_emerald.png',
-                        Ruby: 'https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_ruby.png',
-                        Sapphire: 'https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_sapphire.png',
-                        Steel: 'https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_steel.png'
-                    };
-
-                    inkDisplay.innerHTML = ''; // Clear any existing ink images
-
-                    selectedColors.slice(0, 2).forEach((color) => {
-                        if (inkImages[color]) {
-                            const img = document.createElement('img');
-                            img.src = inkImages[color];
-                            img.alt = `${color} Ink`;
-                            inkDisplay.appendChild(img);
-                        }
-                    });
-
-                    // Set wins, losses, draws in #:#:# format
-                    const wins = data.counter?.wins ?? '0';
-                    const losses = data.counter?.losses ?? '0';
-                    const draws = data.counter?.draws ?? '0';
-                    statDisplay.textContent = `${wins}:${losses}:${draws}`;
-
-                    // Set lore counter value
-                    counterDisplay.textContent = data.counterValue ?? '0';
-                } else {
-                    nameDisplay.textContent = 'Not Available';
-                    inkDisplay.innerHTML = 'No Inks Selected';
-                    statDisplay.textContent = '0:0:0';
-                    counterDisplay.textContent = '0';
+                    counterValue = snapshot.val();
+                    counterDisplay.textContent = counterValue;
                 }
             });
         };
@@ -142,33 +166,80 @@
 </head>
 <body>
 
-    <div class="display-container">
-        <!-- Section Label -->
-        <h2>Counter</h2>
+    <h1>Lorcana TCG Form</h1>
 
-        <!-- Player Name -->
-        <div class="stat">
-            Name: <span id="nameDisplay">Loading...</span>
-        </div>
+    <div class="container">
+        <div class="section">
+            <!-- Player name input -->
+            <input type="text" id="nameInput" placeholder="Enter Player Name" />
 
-        <!-- Ink Images (up to 2 checked images) -->
-        <div class="stat">
-            Ink: 
-            <div id="inkDisplay" class="ink-display">
-                Loading...
+            <!-- Ink selection -->
+            <div class="color-options">
+                <label>
+                    <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_amber.png" alt="Amber Ink">
+                    <input type="checkbox" name="counterInk" value="Amber"> Amber
+                </label>
+                <label>
+                    <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_amethyst.png" alt="Amethyst Ink">
+                    <input type="checkbox" name="counterInk" value="Amethyst"> Amethyst
+                </label>
+                <label>
+                    <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_emerald.png" alt="Emerald Ink">
+                    <input type="checkbox" name="counterInk" value="Emerald"> Emerald
+                </label>
+                <label>
+                    <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_ruby.png" alt="Ruby Ink">
+                    <input type="checkbox" name="counterInk" value="Ruby"> Ruby
+                </label>
+                <label>
+                    <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_sapphire.png" alt="Sapphire Ink">
+                    <input type="checkbox" name="counterInk" value="Sapphire"> Sapphire
+                </label>
+                <label>
+                    <img src="https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_steel.png" alt="Steel Ink">
+                    <input type="checkbox" name="counterInk" value="Steel"> Steel
+                </label>
             </div>
-        </div>
 
-        <!-- Wins, Losses, Draws in #:#:# format -->
-        <div class="stat">
-            Wins:Losses:Draws: <span id="statDisplay">Loading...</span>
-        </div>
+            <!-- Wins, Losses, Draws selection -->
+            <div class="dropdowns">
+                <label for="counterWinSelect">Wins:</label>
+                <select id="counterWinSelect">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
 
-        <!-- Lore Counter -->
-        <div class="lore-counter">
-            <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/d14ea819-bcbe-49dc-99b9-e81086106809/dhro31k-da79efd9-b141-4a51-a21f-a4c9776df7fb.png" 
-                 alt="Lorcana Lore Image">
-            <span class="counter-value" id="counterDisplay">0</span>
+                <label for="counterLossSelect">Losses:</label>
+                <select id="counterLossSelect">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+
+                <label for="counterDrawSelect">Draws:</label>
+                <select id="counterDrawSelect">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+
+            <!-- Lore Counter -->
+            <div class="lore-counter">
+                <button id="decrementButton">-</button>
+                <span id="counterDisplay">0</span>
+                <button id="incrementButton">+</button>
+            </div>
         </div>
     </div>
 
