@@ -123,13 +123,13 @@
                     });
 
                     // Set wins, losses, draws in #:#:# format
-                    const wins = data.counter?.wins || 0;
-                    const losses = data.counter?.losses || 0;
-                    const draws = data.counter?.draws || 0;
+                    const wins = data.counter?.wins ?? '0';
+                    const losses = data.counter?.losses ?? '0';
+                    const draws = data.counter?.draws ?? '0';
                     statDisplay.textContent = `${wins}:${losses}:${draws}`;
 
                     // Set lore counter value
-                    counterDisplay.textContent = data.counterValue || 0;
+                    counterDisplay.textContent = data.counterValue ?? '0';
                 } else {
                     nameDisplay.textContent = 'Not Available';
                     inkDisplay.innerHTML = 'No Inks Selected';
