@@ -76,8 +76,8 @@
             color: white;
             z-index: 10;
         }
-        /* Record Section */
-        .record-section {
+        /* Round Section */
+        .round-section {
             margin-bottom: 20px;
             padding: 10px 20px;
             border: 1px solid #ccc;
@@ -85,7 +85,7 @@
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
             width: auto;
         }
-        .record-section p {
+        .round-section p {
             margin: 0;
             font-size: 24px;
             font-weight: bold;
@@ -121,15 +121,15 @@
             const doorWLDDisplay = document.getElementById('doorWLDDisplay');
             const doorLoreDisplay = document.getElementById('doorLoreDisplay');
 
-            const recordDisplay = document.getElementById('recordDisplay');
+            const roundDisplay = document.getElementById('roundDisplay');
 
-            // Fetch Record Data
-            onValue(ref(database, 'formData/record'), (snapshot) => {
+            // Fetch Round Data
+            onValue(ref(database, 'formData/roundValue'), (snapshot) => {
                 if (snapshot.exists()) {
-                    const record = snapshot.val();
-                    recordDisplay.textContent = `Record: ${record.wins || 0} Wins, ${record.losses || 0} Losses, ${record.draws || 0} Draws`;
+                    const roundValue = snapshot.val();
+                    roundDisplay.textContent = `Round: ${roundValue}`;
                 } else {
-                    recordDisplay.textContent = "No record data found.";
+                    roundDisplay.textContent = "No round data found.";
                 }
             });
 
@@ -143,11 +143,13 @@
                     if (Array.isArray(data.counter.color)) {
                         data.counter.color.forEach(ink => {
                             const img = document.createElement('img');
-                            img.src = `https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_${ink.toLowerCase()}.png`;
+                            img.src = ink ? `https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_${ink.toLowerCase()}.png` : "https://cdn.shopify.com/s/files/1/0615/8624/3793/files/Ink-Silo.png?v=1728107944";
                             counterInksDisplay.appendChild(img);
                         });
                     } else {
-                        counterInksDisplay.textContent = "No inks selected";
+                        const img = document.createElement('img');
+                        img.src = "https://cdn.shopify.com/s/files/1/0615/8624/3793/files/Ink-Silo.png?v=1728107944"; // Default image if no inks selected
+                        counterInksDisplay.appendChild(img);
                     }
 
                     counterWLDDisplay.textContent = `${data.counter.wins || 0}:${data.counter.losses || 0}:${data.counter.draws || 0}`;
@@ -167,11 +169,13 @@
                     if (Array.isArray(data.door.color)) {
                         data.door.color.forEach(ink => {
                             const img = document.createElement('img');
-                            img.src = `https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_${ink.toLowerCase()}.png`;
+                            img.src = ink ? `https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_${ink.toLowerCase()}.png` : "https://cdn.shopify.com/s/files/1/0615/8624/3793/files/Ink-Silo.png?v=1728107944";
                             doorInksDisplay.appendChild(img);
                         });
                     } else {
-                        doorInksDisplay.textContent = "No inks selected";
+                        const img = document.createElement('img');
+                        img.src = "https://cdn.shopify.com/s/files/1/0615/8624/3793/files/Ink-Silo.png?v=1728107944"; // Default image if no inks selected
+                        doorInksDisplay.appendChild(img);
                     }
 
                     doorWLDDisplay.textContent = `${data.door.wins || 0}:${data.door.losses || 0}:${data.door.draws || 0}`;
@@ -185,9 +189,9 @@
 </head>
 <body>
 
-    <!-- Record Section -->
-    <div class="record-section">
-        <p id="recordDisplay">Record: Loading...</p>
+    <!-- Round Section -->
+    <div class="round-section">
+        <p id="roundDisplay">Round: Loading...</p>
     </div>
 
     <div class="container">
