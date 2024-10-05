@@ -8,34 +8,37 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            justify-content: flex-start;
+            align-items: flex-start;
             flex-direction: column;
             height: 100vh;
             margin: 0;
+            padding: 20px;
         }
         .container {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             width: 100%;
             padding: 0 50px;
+            gap: 50px;
         }
         .section {
             border: 1px solid #ccc;
             border-radius: 8px;
             padding: 20px;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-            text-align: center;
             width: 40%;
+            text-align: left;
         }
         h2 {
             margin-bottom: 20px;
+            text-align: left;
         }
         .color-options {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
-            justify-items: center;
+            justify-items: flex-start;
             margin-bottom: 20px;
         }
         .color-options img {
@@ -44,7 +47,7 @@
         }
         .dropdowns {
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             gap: 10px;
             margin-bottom: 20px;
         }
