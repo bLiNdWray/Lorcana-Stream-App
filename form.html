@@ -26,25 +26,39 @@
         let counterValue = 0; // Initialize counter
         const nameInput = document.getElementById('nameInput');
         const colorSelect = document.getElementById('colorSelect');
-        const winSelect = document.getElementById('winSelect');
-        const lossSelect = document.getElementById('lossSelect');
-        const drawSelect = document.getElementById('drawSelect');
+        const counterWinSelect = document.getElementById('counterWinSelect');
+        const counterLossSelect = document.getElementById('counterLossSelect');
+        const counterDrawSelect = document.getElementById('counterDrawSelect');
+        const doorWinSelect = document.getElementById('doorWinSelect');
+        const doorLossSelect = document.getElementById('doorLossSelect');
+        const doorDrawSelect = document.getElementById('doorDrawSelect');
         const counterDisplay = document.getElementById('counterDisplay');
 
         // Function to update Firebase
         function updateDatabase() {
             const name = nameInput.value;
             const selectedColor = colorSelect.value;
-            const wins = winSelect.value;
-            const losses = lossSelect.value;
-            const draws = drawSelect.value;
+            const counterWins = counterWinSelect.value;
+            const counterLosses = counterLossSelect.value;
+            const counterDraws = counterDrawSelect.value;
+            const doorWins = doorWinSelect.value;
+            const doorLosses = doorLossSelect.value;
+            const doorDraws = doorDrawSelect.value;
+
             set(ref(database, 'formData'), {
                 name: name,
                 color: selectedColor,
-                wins: wins,
-                losses: losses,
-                draws: draws,
-                counter: counterValue
+                counter: {
+                    wins: counterWins,
+                    losses: counterLosses,
+                    draws: counterDraws
+                },
+                door: {
+                    wins: doorWins,
+                    losses: doorLosses,
+                    draws: doorDraws
+                },
+                counterValue: counterValue
             });
         }
 
@@ -68,9 +82,12 @@
         // Event listeners for inputs
         nameInput.addEventListener('input', updateDatabase);
         colorSelect.addEventListener('change', updateDatabase);
-        winSelect.addEventListener('change', updateDatabase);
-        lossSelect.addEventListener('change', updateDatabase);
-        drawSelect.addEventListener('change', updateDatabase);
+        counterWinSelect.addEventListener('change', updateDatabase);
+        counterLossSelect.addEventListener('change', updateDatabase);
+        counterDrawSelect.addEventListener('change', updateDatabase);
+        doorWinSelect.addEventListener('change', updateDatabase);
+        doorLossSelect.addEventListener('change', updateDatabase);
+        doorDrawSelect.addEventListener('change', updateDatabase);
     </script>
 </head>
 <body>
@@ -91,8 +108,9 @@
         <!-- Add more combinations as needed -->
     </select>
 
-    <label for="winSelect">Wins:</label>
-    <select id="winSelect">
+    <h2>Counter</h2>
+    <label for="counterWinSelect">Wins:</label>
+    <select id="counterWinSelect">
         <option value="0">0</option>
         <option value="1">1</option>
         <option value="2">2</option>
@@ -102,8 +120,8 @@
         <!-- Add more options as needed -->
     </select>
 
-    <label for="lossSelect">Losses:</label>
-    <select id="lossSelect">
+    <label for="counterLossSelect">Losses:</label>
+    <select id="counterLossSelect">
         <option value="0">0</option>
         <option value="1">1</option>
         <option value="2">2</option>
@@ -113,8 +131,8 @@
         <!-- Add more options as needed -->
     </select>
 
-    <label for="drawSelect">Draws:</label>
-    <select id="drawSelect">
+    <label for="counterDrawSelect">Draws:</label>
+    <select id="counterDrawSelect">
         <option value="0">0</option>
         <option value="1">1</option>
         <option value="2">2</option>
@@ -123,13 +141,53 @@
         <option value="5">5</option>
         <!-- Add more options as needed -->
     </select>
-
-    <div id="colorImage">
-        <img id="colorImageDisplay" src="" alt="" style="display:none; width:100px; height:auto;"/>
-    </div>
 
     <div>
         <h2>Counter</h2>
+        <img src="https://example.com/lorcana-lore-image.jpg" alt="Lorcana Lore" style="width:100px; height:auto;"/>
+        <div>
+            <button onclick="decrementCounter()">-</button>
+            <span id="counterDisplay">0</span>
+            <button onclick="incrementCounter()">+</button>
+        </div>
+    </div>
+
+    <h2>Door</h2>
+    <label for="doorWinSelect">Wins:</label>
+    <select id="doorWinSelect">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <!-- Add more options as needed -->
+    </select>
+
+    <label for="doorLossSelect">Losses:</label>
+    <select id="doorLossSelect">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <!-- Add more options as needed -->
+    </select>
+
+    <label for="doorDrawSelect">Draws:</label>
+    <select id="doorDrawSelect">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <!-- Add more options as needed -->
+    </select>
+
+    <div>
+        <h2>Door</h2>
         <img src="https://example.com/lorcana-lore-image.jpg" alt="Lorcana Lore" style="width:100px; height:auto;"/>
         <div>
             <button onclick="decrementCounter()">-</button>
@@ -160,6 +218,4 @@
                 colorImage.style.display = 'none';
             }
         });
-    </script>
-</body>
-</html>
+    </
