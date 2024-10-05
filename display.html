@@ -98,6 +98,9 @@
             onValue(ref(database, 'formData/roundValue'), (snapshot) => {
                 if (snapshot.exists()) {
                     roundDisplay.textContent = snapshot.val();
+                } else {
+                    console.error("No round data found.");
+                    roundDisplay.textContent = "No data available";
                 }
             });
 
@@ -107,13 +110,24 @@
                     const data = snapshot.val();
                     counterNameDisplay.textContent = data.name || 'Unknown';
                     counterInksDisplay.innerHTML = ''; // Clear previous
-                    data.color.forEach(ink => {
-                        const img = document.createElement('img');
-                        img.src = `https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_${ink.toLowerCase()}.png`;
-                        counterInksDisplay.appendChild(img);
-                    });
-                    counterWLDDisplay.textContent = `${data.wins}:${data.losses}:${data.draws}`;
-                    counterLoreDisplay.textContent = data.counterValue;
+
+                    // Safely check if color exists and is an array
+                    if (Array.isArray(data.color)) {
+                        data.color.forEach(ink => {
+                            const img = document.createElement('img');
+                            img.src = `https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_${ink.toLowerCase()}.png`;
+                            counterInksDisplay.appendChild(img);
+                        });
+                    } else {
+                        console.error("No color data or invalid color data found.");
+                        counterInksDisplay.textContent = "No colors selected";
+                    }
+
+                    counterWLDDisplay.textContent = `${data.wins || 0}:${data.losses || 0}:${data.draws || 0}`;
+                    counterLoreDisplay.textContent = data.counterValue || 0;
+                } else {
+                    console.error("No counter data found.");
+                    counterNameDisplay.textContent = "No data available";
                 }
             });
 
@@ -123,13 +137,24 @@
                     const data = snapshot.val();
                     doorNameDisplay.textContent = data.name || 'Unknown';
                     doorInksDisplay.innerHTML = ''; // Clear previous
-                    data.color.forEach(ink => {
-                        const img = document.createElement('img');
-                        img.src = `https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_${ink.toLowerCase()}.png`;
-                        doorInksDisplay.appendChild(img);
-                    });
-                    doorWLDDisplay.textContent = `${data.wins}:${data.losses}:${data.draws}`;
-                    doorLoreDisplay.textContent = data.counterValue;
+
+                    // Safely check if color exists and is an array
+                    if (Array.isArray(data.color)) {
+                        data.color.forEach(ink => {
+                            const img = document.createElement('img');
+                            img.src = `https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_${ink.toLowerCase()}.png`;
+                            doorInksDisplay.appendChild(img);
+                        });
+                    } else {
+                        console.error("No color data or invalid color data found.");
+                        doorInksDisplay.textContent = "No colors selected";
+                    }
+
+                    doorWLDDisplay.textContent = `${data.wins || 0}:${data.losses || 0}:${data.draws || 0}`;
+                    doorLoreDisplay.textContent = data.counterValue || 0;
+                } else {
+                    console.error("No door data found.");
+                    doorNameDisplay.textContent = "No data available";
                 }
             });
         };
@@ -139,7 +164,7 @@
 
     <!-- Round Display -->
     <div class="round">
-        Round: <span id="roundDisplay">0</span>
+        Round: <span id="roundDisplay">Loading...</span>
     </div>
 
     <!-- Counter and Door Sections Display -->
