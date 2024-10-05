@@ -23,9 +23,16 @@
         .color-options {
             display: flex;
             flex-wrap: wrap;
+            align-items: center;
         }
         .color-options label {
             margin-right: 10px;
+        }
+        .ink-image {
+            display: none;
+            width: 30px;
+            height: 30px;
+            margin-left: 10px;
         }
         button {
             margin: 0 10px;
@@ -33,7 +40,7 @@
         }
         input[type="text"] {
             width: 100%;
-            margin-bottom: 15px;
+            margin-top: 15px;
             padding: 8px;
             box-sizing: border-box;
         }
@@ -68,7 +75,7 @@
             // Function to update Firebase
             function updateDatabase() {
                 const playerName = nameInput.value;
-                const counterColor = Array.from(document.querySelectorAll('input[name="counterColor"]:checked')).map(el => el.value);
+                const counterInk = Array.from(document.querySelectorAll('input[name="counterInk"]:checked')).map(el => el.value);
                 const counterWins = counterWinSelect.value;
                 const counterLosses = counterLossSelect.value;
                 const counterDraws = counterDrawSelect.value;
@@ -78,7 +85,7 @@
                         name: playerName
                     },
                     counter: {
-                        color: counterColor,
+                        ink: counterInk,
                         wins: counterWins,
                         losses: counterLosses,
                         draws: counterDraws
@@ -119,6 +126,18 @@
             }).catch((error) => {
                 console.error("Error fetching counter data:", error);
             });
+
+            // Show/hide ink images when checkboxes are clicked
+            document.querySelectorAll('input[name="counterInk"]').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const img = document.getElementById(`${checkbox.value.toLowerCase()}Img`);
+                    if (this.checked) {
+                        img.style.display = 'inline';
+                    } else {
+                        img.style.display = 'none';
+                    }
+                });
+            });
         }
     </script>
 </head>
@@ -126,17 +145,26 @@
 
     <div class="container">
         <div class="section">
-            <input type="text" id="nameInput" placeholder="Enter Name" />
-
             <h2>Counter</h2>
 
             <div class="color-options">
-                <label><input type="checkbox" name="counterColor" value="red"> Red</label>
-                <label><input type="checkbox" name="counterColor" value="blue"> Blue</label>
-                <label><input type="checkbox" name="counterColor" value="green"> Green</label>
-                <label><input type="checkbox" name="counterColor" value="yellow"> Yellow</label>
-                <label><input type="checkbox" name="counterColor" value="purple"> Purple</label>
-                <label><input type="checkbox" name="counterColor" value="steel"> Steel</label>
+                <label><input type="checkbox" name="counterInk" value="Amber"> Amber</label>
+                <img id="amberImg" src="https://example.com/amber.png" class="ink-image" alt="Amber Ink">
+                
+                <label><input type="checkbox" name="counterInk" value="Amethyst"> Amethyst</label>
+                <img id="amethystImg" src="https://example.com/amethyst.png" class="ink-image" alt="Amethyst Ink">
+                
+                <label><input type="checkbox" name="counterInk" value="Emerald"> Emerald</label>
+                <img id="emeraldImg" src="https://example.com/emerald.png" class="ink-image" alt="Emerald Ink">
+                
+                <label><input type="checkbox" name="counterInk" value="Ruby"> Ruby</label>
+                <img id="rubyImg" src="https://example.com/ruby.png" class="ink-image" alt="Ruby Ink">
+                
+                <label><input type="checkbox" name="counterInk" value="Sapphire"> Sapphire</label>
+                <img id="sapphireImg" src="https://example.com/sapphire.png" class="ink-image" alt="Sapphire Ink">
+                
+                <label><input type="checkbox" name="counterInk" value="Steel"> Steel</label>
+                <img id="steelImg" src="https://example.com/steel.png" class="ink-image" alt="Steel Ink">
             </div>
 
             <label for="counterWinSelect">Wins:</label>
@@ -177,6 +205,8 @@
                     <button onclick="incrementCounter()">+</button>
                 </div>
             </div>
+
+            <input type="text" id="nameInput" placeholder="Enter Name" />
         </div>
     </div>
 </body>
