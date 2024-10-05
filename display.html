@@ -112,18 +112,8 @@
                     counterNameDisplay.textContent = data.name || 'Unknown';
                     counterInksDisplay.innerHTML = ''; // Clear previous
 
-                    // Handle color as array, string, or object
-                    if (Array.isArray(data.color)) {
-                        data.color.forEach(ink => {
-                            const img = document.createElement('img');
-                            img.src = `https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_${ink.toLowerCase()}.png`;
-                            counterInksDisplay.appendChild(img);
-                        });
-                    } else if (typeof data.color === 'string') {
-                        const img = document.createElement('img');
-                        img.src = `https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_${data.color.toLowerCase()}.png`;
-                        counterInksDisplay.appendChild(img);
-                    } else if (typeof data.color === 'object' && data.color !== null) {
+                    // Handle color as object using Object.values()
+                    if (typeof data.color === 'object' && data.color !== null) {
                         Object.values(data.color).forEach(ink => {
                             const img = document.createElement('img');
                             img.src = `https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_${ink.toLowerCase()}.png`;
@@ -150,18 +140,8 @@
                     doorNameDisplay.textContent = data.name || 'Unknown';
                     doorInksDisplay.innerHTML = ''; // Clear previous
 
-                    // Handle color as array, string, or object
-                    if (Array.isArray(data.color)) {
-                        data.color.forEach(ink => {
-                            const img = document.createElement('img');
-                            img.src = `https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_${ink.toLowerCase()}.png`;
-                            doorInksDisplay.appendChild(img);
-                        });
-                    } else if (typeof data.color === 'string') {
-                        const img = document.createElement('img');
-                        img.src = `https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_${data.color.toLowerCase()}.png`;
-                        doorInksDisplay.appendChild(img);
-                    } else if (typeof data.color === 'object' && data.color !== null) {
+                    // Handle color as object using Object.values()
+                    if (typeof data.color === 'object' && data.color !== null) {
                         Object.values(data.color).forEach(ink => {
                             const img = document.createElement('img');
                             img.src = `https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_${ink.toLowerCase()}.png`;
