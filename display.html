@@ -83,7 +83,6 @@
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
 
-        // Wait until DOM is loaded
         window.onload = () => {
             const nameDisplay = document.getElementById('nameDisplay');
             const inkDisplay = document.getElementById('inkDisplay');
@@ -98,11 +97,11 @@
                 if (snapshot.exists()) {
                     const data = snapshot.val();
 
-                    // Set player name
-                    nameDisplay.textContent = data.name || 'No Name';
+                    // Set player name (handle missing data)
+                    nameDisplay.textContent = data.name || 'Not Available';
 
                     // Set ink images (based on checked inks)
-                    const selectedColors = data.counter.color || [];
+                    const selectedColors = data.counter?.color || [];
                     const inkImages = {
                         Amber: 'https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_amber.png',
                         Amethyst: 'https://www.disneylorcana.com/cms/gallery/lorcana-web/inks/dlc_ink_amethyst.png',
@@ -124,13 +123,18 @@
                     });
 
                     // Set wins, losses, draws in #:#:# format
-                    const wins = data.counter.wins || 0;
-                    const losses = data.counter.losses || 0;
-                    const draws = data.counter.draws || 0;
+                    const wins = data.counter?.wins || 0;
+                    const losses = data.counter?.losses || 0;
+                    const draws = data.counter?.draws || 0;
                     statDisplay.textContent = `${wins}:${losses}:${draws}`;
 
                     // Set lore counter value
                     counterDisplay.textContent = data.counterValue || 0;
+                } else {
+                    nameDisplay.textContent = 'Not Available';
+                    inkDisplay.innerHTML = 'No Inks Selected';
+                    statDisplay.textContent = '0:0:0';
+                    counterDisplay.textContent = '0';
                 }
             });
         };
