@@ -4,6 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lorcana TCG Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
+        .section {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            width: 45%;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
         import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js";
@@ -101,111 +118,102 @@
 <body>
     <h1>Lorcana TCG Form</h1>
 
-    <h2>Counter Section</h2>
-    <label for="counterNameInput">Counter Name:</label>
-    <input type="text" id="counterNameInput" placeholder="Enter Counter Name" />
+    <div class="container">
+        <div class="section">
+            <h2>Counter Section</h2>
+            <label for="counterNameInput">Counter Name:</label>
+            <input type="text" id="counterNameInput" placeholder="Enter Counter Name" />
 
-    <label for="counterColorSelect">Select Color Combination:</label>
-    <select id="counterColorSelect">
-        <option value="">Select a color</option>
-        <option value="red">Red</option>
-        <option value="blue">Blue</option>
-        <option value="green">Green</option>
-        <option value="yellow">Yellow</option>
-        <option value="purple">Purple</option>
-        <option value="red-blue">Red & Blue</option>
-        <!-- Add more combinations as needed -->
-    </select>
+            <label for="counterColorSelect">Select Color Combination:</label>
+            <select id="counterColorSelect">
+                <option value="">Select a color</option>
+                <option value="red">Red</option>
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
+                <option value="yellow">Yellow</option>
+                <option value="purple">Purple</option>
+                <option value="red-blue">Red & Blue</option>
+                <!-- Add more combinations as needed -->
+            </select>
 
-    <label for="counterWinSelect">Wins:</label>
-    <select id="counterWinSelect">
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-    </select>
+            <label for="counterWinSelect">Wins:</label>
+            <select id="counterWinSelect">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
 
-    <label for="counterLossSelect">Losses:</label>
-    <select id="counterLossSelect">
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-    </select>
+            <label for="counterLossSelect">Losses:</label>
+            <select id="counterLossSelect">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
 
-    <label for="counterDrawSelect">Draws:</label>
-    <select id="counterDrawSelect">
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-    </select>
+            <label for="counterDrawSelect">Draws:</label>
+            <select id="counterDrawSelect">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
 
-    <div>
-        <h4>Counter Value</h4>
-        <img src="https://example.com/lorcana-lore-image.jpg" alt="Lorcana Lore" style="width:100px; height:auto;"/>
-        <div>
-            <button onclick="decrementCounter()">-</button>
-            <span id="counterDisplay">0</span>
-            <button onclick="incrementCounter()">+</button>
+            <div>
+                <h4>Counter Value</h4>
+                <img src="https://example.com/lorcana-lore-image.jpg" alt="Lorcana Lore" style="width:100px; height:auto;"/>
+                <div>
+                    <button onclick="decrementCounter()">-</button>
+                    <span id="counterDisplay">0</span>
+                    <button onclick="incrementCounter()">+</button>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <h2>Door Section</h2>
-    <label for="doorNameInput">Door Name:</label>
-    <input type="text" id="doorNameInput" placeholder="Enter Door Name" />
+        <div class="section">
+            <h2>Door Section</h2>
+            <label for="doorNameInput">Door Name:</label>
+            <input type="text" id="doorNameInput" placeholder="Enter Door Name" />
 
-    <label for="doorColorSelect">Select Color Combination:</label>
-    <select id="doorColorSelect">
-        <option value="">Select a color</option>
-        <option value="red">Red</option>
-        <option value="blue">Blue</option>
-        <option value="green">Green</option>
-        <option value="yellow">Yellow</option>
-        <option value="purple">Purple</option>
-        <option value="red-blue">Red & Blue</option>
-        <!-- Add more combinations as needed -->
-    </select>
+            <label for="doorColorSelect">Select Color Combination:</label>
+            <select id="doorColorSelect">
+                <option value="">Select a color</option>
+                <option value="red">Red</option>
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
+                <option value="yellow">Yellow</option>
+                <option value="purple">Purple</option>
+                <option value="red-blue">Red & Blue</option>
+                <!-- Add more combinations as needed -->
+            </select>
 
-    <label for="doorWinSelect">Wins:</label>
-    <select id="doorWinSelect">
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-    </select>
+            <label for="doorWinSelect">Wins:</label>
+            <select id="doorWinSelect">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
 
-    <label for="doorLossSelect">Losses:</label>
-    <select id="doorLossSelect">
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-    </select>
+            <label for="doorLossSelect">Losses:</label>
+            <select id="doorLossSelect">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
 
-    <label for="doorDrawSelect">Draws:</label>
-    <select id="doorDrawSelect">
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-    </select>
-
-    <div>
-        <h4>Door Value</h4>
-        <img src="https://example.com/lorcana-lore-image.jpg" alt="Lorcana Lore" style="width:100px; height:auto;"/>
-        <div>
-            <button onclick="decrementCounter()">-</button>
-            <span id="counterDisplay">0</span
+            <label for="doorDrawSelect">Draws:</label>
+            <select id="doorDrawSelect">
+                <option value
